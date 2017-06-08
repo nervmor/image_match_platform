@@ -17,7 +17,7 @@
         "size" : "1024 * 768",
         "format" : "jpg"
     },
-    "url" : " http://47.93.244.54/storage/0/5643F2AC451D034
+    "url" : "http://47.93.244.54/storage/0/5643F2AC451D034“
 }
 
 @apiUse api_success
@@ -46,17 +46,19 @@
 @apiVersion 0.1.0
 
 @apiParam {String} url 图片的地址
+@apiParam {Number} [maxdist] 最大差距度(可选参数)
 
 @apiParamExample {json} 参数示例:
 {
-    "url" : " http://47.93.244.54/storage/0/5643F2AC451D034"
+    "url" : " http://47.93.244.54/storage/0/5643F2AC451D034",
+    "maxdist" : 0.5
 }
 
 @apiUse api_success
 @apiSuccess {Object[]} results 匹配结果
 @apiSuccess {String} results.metadata 自定义信息
 @apiSuccess {String} results.url 图片的url
-@apiSuccess {Number} results.score 匹配得分，分数越低表示匹配度越高
+@apiSuccess {Number} results.dist 匹配差距度得分，分数越低表示匹配度越高
 @apiSuccessExample {json} 成功:
       HTTP/1.1 200 OK
       {
@@ -73,7 +75,7 @@
                         "format" : "jpg"
                     },
                     "url" : "http://47.93.244.54/storage/0/5643F2AC451D034",
-                    "score" : 0.0
+                    "dist" : 0.0
                 },
                 {
                     "metadata": 
@@ -84,7 +86,7 @@
                         "format" : "png"
                     },
                     "url" : "http://47.93.244.54/storage/3/B874C76F7E120016",
-                    "score" : 0.5232368
+                    "dist" : 0.5232368
                 }
             ]
       }

@@ -57,7 +57,7 @@ define({ "api": [
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    },\n    \"url\" : \" http://47.93.244.54/storage/0/5643F2AC451D034\n}",
+          "content": "{\n    \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    },\n    \"url\" : \"http://47.93.244.54/storage/0/5643F2AC451D034“\n}",
           "type": "json"
         }
       ]
@@ -136,13 +136,20 @@ define({ "api": [
             "optional": false,
             "field": "url",
             "description": "<p>图片的地址</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "maxdist",
+            "description": "<p>最大差距度</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"url\" : \" http://47.93.244.54/storage/0/5643F2AC451D034\"\n}",
+          "content": "{\n    \"url\" : \" http://47.93.244.54/storage/0/5643F2AC451D034\",\n    \"maxdist\" : 0.5\n}",
           "type": "json"
         }
       ]
@@ -175,8 +182,8 @@ define({ "api": [
             "group": "Success 200",
             "type": "Number",
             "optional": false,
-            "field": "results.score",
-            "description": "<p>匹配得分，分数越低表示匹配度越高</p>"
+            "field": "results.dist",
+            "description": "<p>匹配差距度得分，分数越低表示匹配度越高</p>"
           },
           {
             "group": "Success 200",
@@ -197,7 +204,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功:",
-          "content": "HTTP/1.1 200 OK\n{\n      \"code\": 0,\n      \"msg\": \"success\",\n      \"results\" : \n      [\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Jack's life\", \n                  \"from\" : \"Jack.mp4\",\n                  \"size\" : \"1024 * 768\",\n                  \"format\" : \"jpg\"\n              },\n              \"url\" : \"http://47.93.244.54/storage/0/5643F2AC451D034\",\n              \"score\" : 0.0\n          },\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Tom's life\", \n                  \"from\" : \"Tom.mp4\",\n                  \"size\" : \"800 * 600\",\n                  \"format\" : \"png\"\n              },\n              \"url\" : \"http://47.93.244.54/storage/3/B874C76F7E120016\",\n              \"score\" : 0.5232368\n          }\n      ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n      \"code\": 0,\n      \"msg\": \"success\",\n      \"results\" : \n      [\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Jack's life\", \n                  \"from\" : \"Jack.mp4\",\n                  \"size\" : \"1024 * 768\",\n                  \"format\" : \"jpg\"\n              },\n              \"url\" : \"http://47.93.244.54/storage/0/5643F2AC451D034\",\n              \"dist\" : 0.0\n          },\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Tom's life\", \n                  \"from\" : \"Tom.mp4\",\n                  \"size\" : \"800 * 600\",\n                  \"format\" : \"png\"\n              },\n              \"url\" : \"http://47.93.244.54/storage/3/B874C76F7E120016\",\n              \"dist\" : 0.5232368\n          }\n      ]\n}",
           "type": "json"
         }
       ]
