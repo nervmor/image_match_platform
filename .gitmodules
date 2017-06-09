@@ -1,3 +1,6 @@
 [submodule "code/third/image-match"]
 	path = code/third/image-match
 	url = git@github.com:nervmor/image-match.git
+[submodule "code/third/zimg"]
+	path = code/third/zimg
+	url = git@github.com:nervmor/zimg.git

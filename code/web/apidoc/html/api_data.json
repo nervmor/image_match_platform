@@ -41,9 +41,9 @@
           {
             "group": "Parameter",
             "type": "String",
-            "optional": false,
+            "optional": true,
             "field": "metadata",
-            "description": "<p>自定义标识数据</p>"
+            "description": "<p>自定义标识数据(可选参数)</p>"
           },
           {
             "group": "Parameter",
@@ -66,7 +66,7 @@
       "examples": [
         {
           "title": "成功:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"code\": 0,\n  \"msg\": \"success\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": 0,\n}",
           "type": "json"
         }
       ],
@@ -78,13 +78,6 @@
             "optional": false,
             "field": "code",
             "description": "<p>成功时code=0</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p>返回相关信息</p>"
           }
         ]
       }
@@ -93,7 +86,7 @@
       "examples": [
         {
           "title": "失败:",
-          "content": "HTTP/1.1 400 \n{\n  \"code\": -1,\n  \"msg\": \"image url is invalid\"\n}",
+          "content": "HTTP/1.1 400 \n{\n  \"code\": -1,\n  \"error\": \"image url is invalid\"\n}",
           "type": "json"
         }
       ],
@@ -110,7 +103,7 @@
             "group": "Error 4xx",
             "type": "String",
             "optional": false,
-            "field": "msg",
+            "field": "error",
             "description": "<p>失败原因说明</p>"
           }
         ]
@@ -140,9 +133,9 @@
           {
             "group": "Parameter",
             "type": "Number",
-            "optional": false,
+            "optional": true,
             "field": "maxdist",
-            "description": "<p>最大差距度</p>"
+            "description": "<p>最大差距度(可选参数)</p>"
           }
         ]
       },
@@ -191,20 +184,13 @@
             "optional": false,
             "field": "code",
             "description": "<p>成功时code=0</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p>返回相关信息</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "成功:",
-          "content": "HTTP/1.1 200 OK\n{\n      \"code\": 0,\n      \"msg\": \"success\",\n      \"results\" : \n      [\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Jack's life\", \n                  \"from\" : \"Jack.mp4\",\n                  \"size\" : \"1024 * 768\",\n                  \"format\" : \"jpg\"\n              },\n              \"url\" : \"http://47.93.244.54/storage/0/5643F2AC451D034\",\n              \"dist\" : 0.0\n          },\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Tom's life\", \n                  \"from\" : \"Tom.mp4\",\n                  \"size\" : \"800 * 600\",\n                  \"format\" : \"png\"\n              },\n              \"url\" : \"http://47.93.244.54/storage/3/B874C76F7E120016\",\n              \"dist\" : 0.5232368\n          }\n      ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n      \"code\": 0,\n      \"results\" : \n      [\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Jack's life\", \n                  \"from\" : \"Jack.mp4\",\n                  \"size\" : \"1024 * 768\",\n                  \"format\" : \"jpg\"\n              },\n              \"url\" : \"http://47.93.244.54/storage/0/5643F2AC451D034\",\n              \"dist\" : 0.0\n          },\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Tom's life\", \n                  \"from\" : \"Tom.mp4\",\n                  \"size\" : \"800 * 600\",\n                  \"format\" : \"png\"\n              },\n              \"url\" : \"http://47.93.244.54/storage/3/B874C76F7E120016\",\n              \"dist\" : 0.5232368\n          }\n      ]\n}",
           "type": "json"
         }
       ]
@@ -213,7 +199,7 @@
       "examples": [
         {
           "title": "失败:",
-          "content": "HTTP/1.1 400 OK\n{\n  \"code\": -1,\n  \"msg\": \"image url is invalid\"\n}",
+          "content": "HTTP/1.1 400 OK\n{\n  \"code\": -1,\n  \"error\": \"image url is invalid\"\n}",
           "type": "json"
         }
       ],
@@ -230,7 +216,7 @@
             "group": "Error 4xx",
             "type": "String",
             "optional": false,
-            "field": "msg",
+            "field": "error",
             "description": "<p>失败原因说明</p>"
           }
         ]

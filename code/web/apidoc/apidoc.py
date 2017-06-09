@@ -5,7 +5,7 @@
 @apiDescription 导入一张网络图片到样本库中
 @apiVersion 0.1.0
 
-@apiParam {String} metadata 自定义标识数据
+@apiParam {String} [metadata] 自定义标识数据(可选参数)
 @apiParam {String} url 图片的地址
 
 @apiParamExample {json} 参数示例:
@@ -25,7 +25,6 @@
       HTTP/1.1 200 OK
       {
         "code": 0,
-        "msg": "success"
       }
 
 @apiUse api_failure
@@ -33,7 +32,7 @@
       HTTP/1.1 400 
       {
         "code": -1,
-        "msg": "image url is invalid"
+        "error": "image url is invalid"
       }
 """
 
@@ -63,7 +62,6 @@
       HTTP/1.1 200 OK
       {
             "code": 0,
-            "msg": "success",
             "results" : 
             [
                 {
@@ -96,7 +94,7 @@
       HTTP/1.1 400 OK
       {
         "code": -1,
-        "msg": "image url is invalid"
+        "error": "image url is invalid"
       }
 """
 
@@ -104,11 +102,10 @@
 """
 @apiDefine api_success
 @apiSuccess {Number} code 成功时code=0
-@apiSuccess {String} msg 返回相关信息
 """
 
 """
 @apiDefine api_failure
 @apiError {Number} code 失败时code<0
-@apiError {String} msg 失败原因说明
+@apiError {String} error 失败原因说明
 """
