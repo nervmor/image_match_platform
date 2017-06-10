@@ -25,7 +25,7 @@ SECRET_KEY = '(l0&*gl$#_4o5!w%$bexub3@extz)@gu&f-wh%xnbhapk$kju$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["www.nervmor.com"]
 
 
 # Application definition
