@@ -36,6 +36,35 @@
       }
 """
 
+"""
+@api {post} /image/remove/ remove
+@apiGroup image
+@apiName remove
+@apiDescription 样本库中删除该图片
+@apiVersion 0.1.0
+
+@apiParam {String} url 图片的地址
+
+@apiParamExample {json} 参数示例:
+{
+    "url" : "http://47.93.244.54/storage/0/5643F2AC451D034“
+}
+
+@apiUse api_success
+@apiSuccessExample {json} 成功:
+      HTTP/1.1 200 OK
+      {
+        "code": 0,
+      }
+
+@apiUse api_failure
+@apiErrorExample {json} 失败:
+      HTTP/1.1 400 
+      {
+        "code": -1,
+        "error": "image url is invalid"
+      }
+"""
 
 """
 @api {post} /image/match/ match

@@ -43,6 +43,37 @@ def image_add(request):
         return HttpResponse(json.dumps(ret), content_type='application/json')
 
 @csrf_exempt
+def image_remove(request):
+    ret = {}
+    url = ""
+
+    while (True):
+        res, ret, req= common_api_check(request)
+        if (res != True):
+            break
+        try:
+            url = req['url']
+        except (TypeError, ValueError):
+            ret['code'] = RESULT.PARAM_INVALID['code']
+            ret['error'] = RESULT.PARAM_INVALID['error']
+            break
+        try:
+            es = Elasticsearch()
+            ses = SignatureES(es)
+            ses.delete_duplicates(url)
+            ret['code'] = RESULT.SUCCESS['code']
+            break
+        except (TypeError, HTTPError, URLError, IOError):
+            ret['code'] = RESULT.IMAGE_URL_INVALID['code']
+            ret['error'] = RESULT.IMAGE_URL_INVALID['error']
+            break
+    if ret['code'] != RESULT.SUCCESS['code']:
+        return HttpResponseBadRequest(json.dumps(ret), content_type='application/json')
+    else:
+        return HttpResponse(json.dumps(ret), content_type='application/json')
+
+
+@csrf_exempt
 def image_match(request):
     ret = {}
     url = ""

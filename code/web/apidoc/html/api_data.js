@@ -224,5 +224,83 @@ define({ "api": [
     },
     "filename": "./apidoc.py",
     "groupTitle": "image"
+  },
+  {
+    "type": "post",
+    "url": "/image/remove/",
+    "title": "remove",
+    "group": "image",
+    "name": "remove",
+    "description": "<p>样本库中删除该图片</p>",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "url",
+            "description": "<p>图片的地址</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "参数示例:",
+          "content": "{\n    \"url\" : \"http://47.93.244.54/storage/0/5643F2AC451D034“\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "成功:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": 0,\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>成功时code=0</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败:",
+          "content": "HTTP/1.1 400 \n{\n  \"code\": -1,\n  \"error\": \"image url is invalid\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>失败时code&lt;0</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "String",
+            "optional": false,
+            "field": "error",
+            "description": "<p>失败原因说明</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./apidoc.py",
+    "groupTitle": "image"
   }
 ] });
