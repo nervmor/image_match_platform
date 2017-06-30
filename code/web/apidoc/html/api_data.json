@@ -135,7 +135,7 @@
             "type": "Number",
             "optional": true,
             "field": "maxdist",
-            "description": "<p>最大差距度(可选参数)</p>"
+            "description": "<p>最大差距度(可选参数),必须为浮点数</p>"
           }
         ]
       },

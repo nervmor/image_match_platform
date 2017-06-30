@@ -74,7 +74,7 @@
 @apiVersion 0.1.0
 
 @apiParam {String} url 图片的地址
-@apiParam {Number} [maxdist] 最大差距度(可选参数)
+@apiParam {Number} [maxdist] 最大差距度(可选参数),必须为浮点数
 
 @apiParamExample {json} 参数示例:
 {

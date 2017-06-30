@@ -60,8 +60,9 @@ def image_remove(request):
         try:
             es = Elasticsearch()
             ses = SignatureES(es)
-            ses.delete_duplicates(url)
+            del_cnt = ses.delete_record_by_path(url)
             ret['code'] = RESULT.SUCCESS['code']
+            ret['result'] = {'delcnt', del_cnt}
             break
         except (TypeError, HTTPError, URLError, IOError):
             ret['code'] = RESULT.IMAGE_URL_INVALID['code']
@@ -77,7 +78,7 @@ def image_remove(request):
 def image_match(request):
     ret = {}
     url = ""
-    maxdist = 0
+    maxdist = 0.0
     while (True):
         res, ret, req = common_api_check(request)
         if (res != True):
@@ -86,8 +87,7 @@ def image_match(request):
             url = req['url']
             if req.has_key('maxdist'):
                 maxdist = req['maxdist']
-                if not isinstance(maxdist, types.IntType) and \
-                   not isinstance(maxdist, types.FloatType):
+                if not isinstance(maxdist, types.FloatType):
                     ret['code'] = RESULT.MAXDIST_INVALID['code']
                     ret['error'] = RESULT.MAXDIST_INVALID['error']
                     break
@@ -97,8 +97,8 @@ def image_match(request):
             break
         try:
             es = Elasticsearch()
-            if maxdist != 0:
-                ses = SignatureES(es, distance_cutoff = maxdist)
+            if maxdist != 0.0:
+                ses = SignatureES(es, distance_cutoff=maxdist)
             else:
                 ses = SignatureES(es)
             search_res = ses.search_image(url)
