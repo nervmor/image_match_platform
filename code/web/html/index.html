@@ -30,7 +30,7 @@
         <div class="sub-form text-center">
           <div class="row">
             <form enctype="multipart/form-data">
-              <input id="file-0a" class="file" type="file" multiple data-min-file-count="1">
+              <input id="file-upload" class="file" type="file">
             </form>
           </div>
         </div>
@@ -87,3 +87,7 @@
 <script src="js/fileinput.min.js"></script>
 <script src="js/zh.js"></script>
 <script src="js/theme.min.js"></script>
+
+<script>
+    $("#file-upload").fileinput({"uploadUrl":"http://www.nervmor.com:4869/"});
+</script>
