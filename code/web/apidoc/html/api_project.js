@@ -3,13 +3,13 @@ define({
   "version": "0.1.0",
   "description": "Api格式为HTTP协议，使用POST方法，Body使用json格式",
   "title": "ImageMatch Platform Api Document",
-  "url": "http://47.93.244.54/api",
+  "url": "http://www.nervmor.com/api",
   "sampleUrl": false,
   "defaultVersion": "0.0.0",
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2017-06-30T09:13:55.277Z",
+    "time": "2017-07-15T16:15:07.259Z",
     "url": "http://apidocjs.com",
     "version": "0.17.6"
   }

@@ -23,8 +23,8 @@
     "url": "",
     "version": "0.0.0",
     "filename": "./html/main.js",
-    "group": "T__local_image_match_platform_code_web_apidoc_html_main_js",
-    "groupTitle": "T__local_image_match_platform_code_web_apidoc_html_main_js",
+    "group": "S__local_image_match_platform_code_web_apidoc_html_main_js",
+    "groupTitle": "S__local_image_match_platform_code_web_apidoc_html_main_js",
     "name": ""
   },
   {
@@ -302,5 +302,64 @@
     },
     "filename": "./apidoc.py",
     "groupTitle": "image"
+  },
+  {
+    "type": "result",
+    "url": "/result",
+    "title": "code值说明",
+    "group": "result",
+    "name": "code___",
+    "description": "<p>返回码code以及对应描述</p>",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "0",
+            "description": "<p>成功</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "-1",
+            "description": "<p>请求的json格式不正确</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "-2",
+            "description": "<p>请求的参数不正确</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "-3",
+            "description": "<p>请求的HTTP Method不支持</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "-4",
+            "description": "<p>请求的图片地址无法访问</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "-5",
+            "description": "<p>请求参数maxdist不正确</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./apidoc.py",
+    "groupTitle": "result"
   }
 ]

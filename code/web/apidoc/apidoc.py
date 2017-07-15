@@ -1,4 +1,21 @@
 """
+@api {result} /result code值说明
+@apiGroup result
+@apiName code值说明
+@apiDescription 返回码code以及对应描述
+@apiVersion 0.1.0
+
+
+@apiSuccess {Number} 0 成功
+@apiSuccess {Number} -1 请求的json格式不正确
+@apiSuccess {Number} -2 请求的参数不正确
+@apiSuccess {Number} -3 请求的HTTP Method不支持
+@apiSuccess {Number} -4 请求的图片地址无法访问
+@apiSuccess {Number} -5 请求参数maxdist不正确
+
+"""
+
+"""
 @api {post} /image/add/ add
 @apiGroup image
 @apiName add
