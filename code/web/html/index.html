@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>image-match-platform</title>
-<meta name="description" content="Coming Soon Responsive Template">
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/font-awesome.min.css" rel="stylesheet">
-<link href="css/main.css" rel="stylesheet">
 
-<link href="css/fileinput.min.css" rel="stylesheet">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>image-match-platform</title>
+  <meta name="description" content="Coming Soon Responsive Template">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
+
+  <link href="css/fileinput.min.css" rel="stylesheet">
 
 </head>
+
 <body>
 
 <!--main-->
@@ -34,43 +36,56 @@
             </form>
           </div>
         </div>
-        <!--sub-form end--> 
+        <!--sub-form end-->
 
       </div>
     </div>
   </div>
+
+  <div id="pic_op_cont" class="container" style="display:none;">
+    <div class="row">
+      <div class="col-md-9 column">
+      </div>
+      <div class="col-md-3 column">
+        <div class="btn-group">
+          <button id="add_btn" type="button" class="btn btn-primary btn-lg">图片入库</button>
+          <button id="match_btn" type="button" class="btn btn-primary btn-lg">图片匹配</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </section>
-<!--main end--> 
+<!--main end-->
 
 <!--Features-->
-<section class="features section-spacing">
-  <div class="container">
-    <h2>Latest Tweets</h2>
-    <h2>Latest Tweets</h2>
-    <h2>Latest Tweets</h2>
-    <h2>Latest Tweets</h2>
+  <section id="res_sec" class="features section-spacing" style="display:none;">
+    <div class="container">
+
+    </div>
+  </section>
+
+  <!--Features end-->
+
+  <!--Twitter feed-->
+
+
+
+  <!--Twitter feed end-->
+
+  <!--site-footer-->
+
+  <!--site-footer end-->
+
+
+  <!--PRELOAD-->
+  <div id="preloader">
+    <div id="status"></div>
   </div>
-</section>
-
-<!--Features end--> 
-
-<!--Twitter feed-->
-            
-
-
-<!--Twitter feed end--> 
-
-<!--site-footer-->
-
-<!--site-footer end--> 
-
-
-<!--PRELOAD-->
-<div id="preloader">
-  <div id="status"></div>
-</div>
-<!--end PRELOAD--> 
+  <!--end PRELOAD-->
 </body>
+
 </html>
 
 <script src="js/jquery-1.11.1.min.js"></script>
@@ -89,5 +104,61 @@
 <script src="js/theme.min.js"></script>
 
 <script>
-    $("#file-upload").fileinput({"uploadUrl":"http://www.nervmor.com:4869/"});
+  pic_srv_url = "http://www.nervmor.com:4869/";
+  cur_upload_file = ""
+
+  function reset_state() {
+    $("#pic_op_cont").hide();
+    cur_upload_file = ""
+  }
+
+  /******************************** file-upload  *******************************/
+  $("#file-upload").fileinput({ "uploadUrl": pic_srv_url });
+  $("#file-upload").on("fileuploaded", function (event, data, previewId, index) {
+    res = data.response;
+    if (!res["ret"]) {
+      alert("图片服务器处理失败");
+      return;
+    }
+    md5 = res["info"]["md5"];
+    pic_url = pic_srv_url + md5;
+    cur_upload_file = pic_url
+    $("#pic_op_cont").show();
+  })
+  $('#file-upload').on('filebatchuploaderror', function (event, data, msg) {
+    alert("上传图片失败");
+    reset_state();
+  });
+  $("#file-upload").on("filebatchselected", function (event, files) {
+    reset_state();
+  });
+
+  $("#file-upload").on("filecleared", function (event, data, msg) {
+    reset_state();
+  });
+
+  /******************************** btn event  *******************************/
+  $("#add_btn").on("click", function () {
+    req_data = {
+      "url" : cur_upload_file,
+      "metadata" : "brower agent"
+    };
+    $.ajax({
+      type: "POST",
+      url: "http://www.nervmor.com/api/image/add/",
+      data: JSON.stringify(req_data),
+      dataType: "json",
+      success: function(data, textStatus) {
+        alert("ajax");
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        alert("fail");
+      }
+    });
+  });
+
+  $("#match_btn").on("click", function () {
+
+  });
+
 </script>

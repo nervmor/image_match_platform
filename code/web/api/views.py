@@ -62,7 +62,7 @@ def image_remove(request):
             ses = SignatureES(es)
             del_cnt = ses.delete_record_by_path(url)
             ret['code'] = RESULT.SUCCESS['code']
-            ret['result'] = {'delcnt', del_cnt}
+            ret['result'] = {'delcnt': del_cnt}
             break
         except (TypeError, HTTPError, URLError, IOError):
             ret['code'] = RESULT.IMAGE_URL_INVALID['code']
