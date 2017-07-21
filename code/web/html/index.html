@@ -140,11 +140,11 @@
   /******************************** btn event  *******************************/
   $("#add_btn").on("click", function () {
     req_data = {
-      "url" : cur_upload_file,
-      "metadata" : "brower agent"
+      "url": cur_upload_file,
+      "metadata": "brower agent"
     };
     $.ajax({
-      type: "POST",
+      type: "post",
       url: "http://www.nervmor.com/api/image/add/",
       data: JSON.stringify(req_data),
       dataType: "json",

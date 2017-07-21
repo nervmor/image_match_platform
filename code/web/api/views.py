@@ -38,9 +38,9 @@ def image_add(request):
             ret['error'] = RESULT.IMAGE_URL_INVALID['error']
             break
     if ret['code'] != RESULT.SUCCESS['code']:
-        return HttpResponseBadRequest(json.dumps(ret), content_type='application/json')
+        return HttpResponseBadRequest(json.dumps(ret), content_type='application/json;')
     else:
-        return HttpResponse(json.dumps(ret), content_type='application/json')
+        return HttpResponse(json.dumps(ret), content_type='application/json;')
 
 @csrf_exempt
 def image_remove(request):
