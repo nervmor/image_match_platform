@@ -12,82 +12,98 @@
   <link href="css/main.css" rel="stylesheet">
 
   <link href="css/fileinput.min.css" rel="stylesheet">
-
+  <link href="css/toastr.min.css" rel="stylesheet">
 </head>
 
 <body>
 
-<!--main-->
-<section class="main">
-  <div class="overlay"></div>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <!--welcome-message-->
-        <header class="welcome-message text-center">
-          <h1><span class="rotate">select a image...</span></h1>
-        </header>
-        <!--welcome-message end-->
-        <!--sub-form-->
-        <div class="sub-form text-center">
-          <div class="row">
-            <form enctype="multipart/form-data">
-              <input id="file-upload" class="file" type="file">
-            </form>
+  <!--main-->
+  <section class="main">
+    <div class="overlay"></div>
+
+
+
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <!--welcome-message-->
+          <header class="welcome-message text-center">
+            <h1><span class="rotate">select a image...</span></h1>
+          </header>
+          <!--welcome-message end-->
+          <!--sub-form-->
+          <div class="sub-form text-center">
+            <div class="row">
+              <form enctype="multipart/form-data">
+                <input id="file-upload" class="file" type="file">
+              </form>
+            </div>
+          </div>
+          <!--sub-form end-->
+
+        </div>
+      </div>
+    </div>
+
+
+    <div id="pic_op_cont" class="container" style="display:none;">
+      <div class="row">
+        <div class="col-md-9 column">
+        </div>
+        <div class="col-md-3 column">
+          <div class="btn-group">
+            <button id="add_btn" type="button" class="btn btn-primary btn-lg">图片入库</button>
+            <button id="match_btn" type="button" class="btn btn-primary btn-lg">图片匹配</button>
           </div>
         </div>
-        <!--sub-form end-->
 
       </div>
     </div>
-  </div>
 
-  <div id="pic_op_cont" class="container" style="display:none;">
-    <div class="row">
-      <div class="col-md-9 column">
-      </div>
-      <div class="col-md-3 column">
-        <div class="btn-group">
-          <button id="add_btn" type="button" class="btn btn-primary btn-lg">图片入库</button>
-          <button id="match_btn" type="button" class="btn btn-primary btn-lg">图片匹配</button>
+  </section>
+  <!--main end-->
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <i id='loading_icon'></i>
         </div>
       </div>
 
     </div>
-  </div>
 
-</section>
-<!--main end-->
 
-<!--Features-->
-  <section id="res_sec" class="features section-spacing" style="display:none;">
-    <div class="container">
 
+    <!--Features-->
+    <section id="res_sec" class="features section-spacing" style="display:none;">
+      <div class="container">
+        
+      </div>
+    </section>
+
+    <!--Features end-->
+
+    <!--Twitter feed-->
+
+
+
+    <!--Twitter feed end-->
+
+    <!--site-footer-->
+
+    <!--site-footer end-->
+
+
+    <!--PRELOAD-->
+    <div id="preloader">
+      <div id="status"></div>
     </div>
-  </section>
-
-  <!--Features end-->
-
-  <!--Twitter feed-->
-
-
-
-  <!--Twitter feed end-->
-
-  <!--site-footer-->
-
-  <!--site-footer end-->
-
-
-  <!--PRELOAD-->
-  <div id="preloader">
-    <div id="status"></div>
-  </div>
-  <!--end PRELOAD-->
+    <!--end PRELOAD-->
 </body>
 
 </html>
-
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/jquery.backstretch.min.js"></script>
 <script src="js/wow.min.js"></script>
@@ -102,22 +118,59 @@
 <script src="js/fileinput.min.js"></script>
 <script src="js/zh.js"></script>
 <script src="js/theme.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/toastr.min.js"></script>
 
 <script>
   pic_srv_url = "http://www.nervmor.com:4869/";
   cur_upload_file = ""
+  result_str = [
+    { "-1": "请求的json数据不正确" },
+    { "-2": "请求参数不正确" },
+    { "-3": "请求的HTTP方法不支持" },
+    { "-4": "图片地址无法访问" },
+    { "-5": "参数maxdist不正确" },
+  ];
 
   function reset_state() {
     $("#pic_op_cont").hide();
     cur_upload_file = ""
   }
+  function show_loading(text) {
+    $("#loading_icon").addClass("fa fa-spinner fa-spin");
+    $("#myModal").modal('toggle');
+  }
+  function complete_loading() {
+    $("#loading_icon").removeClass("fa fa-spinner fa-spin");
+    $("#myModal").modal('hide');
+  }
 
+  /******************************** loading ui  *******************************/
+
+
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-bottom-center",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
   /******************************** file-upload  *******************************/
   $("#file-upload").fileinput({ "uploadUrl": pic_srv_url });
   $("#file-upload").on("fileuploaded", function (event, data, previewId, index) {
     res = data.response;
     if (!res["ret"]) {
-      alert("图片服务器处理失败");
+      toastr.error("图片服务器处理失败");
       return;
     }
     md5 = res["info"]["md5"];
@@ -126,7 +179,7 @@
     $("#pic_op_cont").show();
   })
   $('#file-upload').on('filebatchuploaderror', function (event, data, msg) {
-    alert("上传图片失败");
+    toastr.error("上传图片失败");
     reset_state();
   });
   $("#file-upload").on("filebatchselected", function (event, files) {
@@ -148,17 +201,65 @@
       url: "http://www.nervmor.com/api/image/add/",
       data: JSON.stringify(req_data),
       dataType: "json",
-      success: function(data, textStatus) {
-        alert("ajax");
+      beforeSend: function () {
+        show_loading("正在入库");
+      },
+      success: function (data, textStatus) {
+        if (data["code"] != 0) {
+          toastr.error(result_str[String(data["code"])]);
+        } else {
+          toastr.success("图片入库成功");
+        }
+        complete_loading();
       },
       error: function (XMLHttpRequest, textStatus, errorThrown) {
-        alert("fail");
+        toastr.error("图片入库失败");
+        complete_loading();
       }
     });
   });
 
   $("#match_btn").on("click", function () {
-
+    req_data = {
+      "url": cur_upload_file
+    };
+    $.ajax({
+      type: "post",
+      url: "http://www.nervmor.com/api/image/match/",
+      data: JSON.stringify(req_data),
+      dataType: "json",
+      beforeSend: function () {
+        show_loading("正在匹配");
+      },
+      success: function (data, textStatus) {
+        do {
+          if (data["code"] != 0) {
+            toastr.error(result_str[String(data["code"])]);
+            break;
+          }
+          if (!data["result"]) {
+            toastr.error("[result] not found");
+            break;
+          }
+          result = data["result"];
+          for (res in result) {
+            
+          }
+        } while (false);
+        complete_loading();
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        complete_loading();
+      }
+    });
   });
 
 </script>
+
+<style>
+  /**********对bootstrap的modal样式进行重写**********/
+
+  .modal-dialog {
+    margin: 300px auto;
+  }
+</style>
