@@ -47,6 +47,23 @@ ul, li {
 	padding: 0;
 	margin: 0;
 }
+
+
+.listview .list .list-icon {
+    width: 64px;
+	height: 64px;
+	margin: 0px;
+}
+
+.listview .list {
+    padding: 16px 16px 16px 96px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    height: 64px;
+    border-bottom-color: #eee;
+    position: relative;
+}
+
 /* ------------------------------------------------------------------------------
    main
 -------------------------------------------------------------------------------*/
@@ -87,7 +104,11 @@ ul, li {
 	font-size:0;
 	overflow:hidden;
 }
+  /**********对bootstrap的modal样式进行重写**********/
 
+.modal-dialog {
+    margin: 300px auto;
+}
 /* ------------------------------------------------------------------------------
    Subscription form 
 -------------------------------------------------------------------------------*/
@@ -245,7 +266,7 @@ font-size: 27px;
  z-index: 2;
 }
  .welcome-message {
-padding-top: 9em;
+padding-top: 1em;
 }
  .section-spacing {
 padding: 6em 0;

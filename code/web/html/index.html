@@ -7,23 +7,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>image-match-platform</title>
   <meta name="description" content="Coming Soon Responsive Template">
+  <link href="third/metro-ui/css/metro.min.css" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/font-awesome.min.css" rel="stylesheet">
-  <link href="css/main.css" rel="stylesheet">
-
   <link href="css/fileinput.min.css" rel="stylesheet">
   <link href="css/toastr.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
 </head>
 
 <body>
 
   <!--main-->
   <section class="main">
-    <div class="overlay"></div>
-
-
-
-    </div>
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -71,40 +66,41 @@
           <i id='loading_icon'></i>
         </div>
       </div>
-
     </div>
+  </div>
 
-
-
-    <!--Features-->
-    <section id="res_sec" class="features section-spacing" style="display:none;">
-      <div class="container">
-        
+  <!--Features-->
+  <section id="res_sec" class="features section-spacing" style="display:none;">
+    <div class="container">
+      <div id="res_lst" class="listview">
       </div>
-    </section>
 
-    <!--Features end-->
-
-    <!--Twitter feed-->
-
-
-
-    <!--Twitter feed end-->
-
-    <!--site-footer-->
-
-    <!--site-footer end-->
-
-
-    <!--PRELOAD-->
-    <div id="preloader">
-      <div id="status"></div>
     </div>
-    <!--end PRELOAD-->
+  </section>
+
+  <!--Features end-->
+
+  <!--Twitter feed-->
+
+
+
+  <!--Twitter feed end-->
+
+  <!--site-footer-->
+
+  <!--site-footer end-->
+
+
+  <!--PRELOAD-->
+  <div id="preloader">
+    <div id="status"></div>
+  </div>
+  <!--end PRELOAD-->
 </body>
 
 </html>
 <script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.backstretch.min.js"></script>
 <script src="js/wow.min.js"></script>
 <script src="js/retina.min.js"></script>
@@ -113,153 +109,11 @@
 <script src="js/jquery.form.min.js"></script>
 <script src="js/jquery.validate.min.js"></script>
 <script src="js/jquery.simple-text-rotator.min.js"></script>
-<script src="js/main.js"></script>
-
 <script src="js/fileinput.min.js"></script>
 <script src="js/zh.js"></script>
 <script src="js/theme.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
 <script src="js/toastr.min.js"></script>
+<script src="third/metro-ui/js/metro.js"></script>
 
-<script>
-  pic_srv_url = "http://www.nervmor.com:4869/";
-  cur_upload_file = ""
-  result_str = [
-    { "-1": "请求的json数据不正确" },
-    { "-2": "请求参数不正确" },
-    { "-3": "请求的HTTP方法不支持" },
-    { "-4": "图片地址无法访问" },
-    { "-5": "参数maxdist不正确" },
-  ];
-
-  function reset_state() {
-    $("#pic_op_cont").hide();
-    cur_upload_file = ""
-  }
-  function show_loading(text) {
-    $("#loading_icon").addClass("fa fa-spinner fa-spin");
-    $("#myModal").modal('toggle');
-  }
-  function complete_loading() {
-    $("#loading_icon").removeClass("fa fa-spinner fa-spin");
-    $("#myModal").modal('hide');
-  }
-
-  /******************************** loading ui  *******************************/
-
-
-  toastr.options = {
-    "closeButton": false,
-    "debug": false,
-    "newestOnTop": false,
-    "progressBar": false,
-    "positionClass": "toast-bottom-center",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "5000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-  }
-  /******************************** file-upload  *******************************/
-  $("#file-upload").fileinput({ "uploadUrl": pic_srv_url });
-  $("#file-upload").on("fileuploaded", function (event, data, previewId, index) {
-    res = data.response;
-    if (!res["ret"]) {
-      toastr.error("图片服务器处理失败");
-      return;
-    }
-    md5 = res["info"]["md5"];
-    pic_url = pic_srv_url + md5;
-    cur_upload_file = pic_url
-    $("#pic_op_cont").show();
-  })
-  $('#file-upload').on('filebatchuploaderror', function (event, data, msg) {
-    toastr.error("上传图片失败");
-    reset_state();
-  });
-  $("#file-upload").on("filebatchselected", function (event, files) {
-    reset_state();
-  });
-
-  $("#file-upload").on("filecleared", function (event, data, msg) {
-    reset_state();
-  });
-
-  /******************************** btn event  *******************************/
-  $("#add_btn").on("click", function () {
-    req_data = {
-      "url": cur_upload_file,
-      "metadata": "brower agent"
-    };
-    $.ajax({
-      type: "post",
-      url: "http://www.nervmor.com/api/image/add/",
-      data: JSON.stringify(req_data),
-      dataType: "json",
-      beforeSend: function () {
-        show_loading("正在入库");
-      },
-      success: function (data, textStatus) {
-        if (data["code"] != 0) {
-          toastr.error(result_str[String(data["code"])]);
-        } else {
-          toastr.success("图片入库成功");
-        }
-        complete_loading();
-      },
-      error: function (XMLHttpRequest, textStatus, errorThrown) {
-        toastr.error("图片入库失败");
-        complete_loading();
-      }
-    });
-  });
-
-  $("#match_btn").on("click", function () {
-    req_data = {
-      "url": cur_upload_file
-    };
-    $.ajax({
-      type: "post",
-      url: "http://www.nervmor.com/api/image/match/",
-      data: JSON.stringify(req_data),
-      dataType: "json",
-      beforeSend: function () {
-        show_loading("正在匹配");
-      },
-      success: function (data, textStatus) {
-        do {
-          if (data["code"] != 0) {
-            toastr.error(result_str[String(data["code"])]);
-            break;
-          }
-          if (!data["result"]) {
-            toastr.error("[result] not found");
-            break;
-          }
-          result = data["result"];
-          for (res in result) {
-            
-          }
-        } while (false);
-        complete_loading();
-      },
-      error: function (XMLHttpRequest, textStatus, errorThrown) {
-        complete_loading();
-      }
-    });
-  });
-
-</script>
-
-<style>
-  /**********对bootstrap的modal样式进行重写**********/
-
-  .modal-dialog {
-    margin: 300px auto;
-  }
-</style>
+<script src="js/main.js"></script>
+<script src="js/image-match.js"></script>
