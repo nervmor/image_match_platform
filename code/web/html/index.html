@@ -44,12 +44,13 @@
 
     <div id="pic_op_cont" class="container" style="display:none;">
       <div class="row">
-        <div class="col-md-9 column">
+        <div class="col-md-8 column">
         </div>
-        <div class="col-md-3 column">
+        <div class="col-md-4 column">
           <div class="btn-group">
-            <button id="add_btn" type="button" class="btn btn-primary btn-lg">图片入库</button>
+            <button id="add_btn" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#metadata_modal">图片入库</button>
             <button id="match_btn" type="button" class="btn btn-primary btn-lg">图片匹配</button>
+            <button id="remove_btn" type="button" class="btn btn-primary btn-lg">图片移除</button>
           </div>
         </div>
 
@@ -59,11 +60,30 @@
   </section>
   <!--main end-->
 
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade" id="loading_modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">
           <i id='loading_icon'></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="modal fade" id="metadata_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>图片描述信息录入</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div class="form-group">
+              <input id="metadata_edit" type="text" class="form-control" placeholder="输入该图片相关描述">
+              <p></p>
+              <button id="metadata_yes_btn" type="button" class="btn btn-primary btn-lg btn-block">确认入库</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
