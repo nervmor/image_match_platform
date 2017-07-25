@@ -57,7 +57,7 @@
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    },\n    \"url\" : \"http://47.93.244.54/storage/0/5643F2AC451D034“\n}",
+          "content": "{\n    \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    },\n    \"url\" : \"http://www.nervmor.com/storage/0/5643F2AC451D034“\n}",
           "type": "json"
         }
       ]
@@ -142,7 +142,7 @@
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"url\" : \" http://47.93.244.54/storage/0/5643F2AC451D034\",\n    \"maxdist\" : 0.5\n}",
+          "content": "{\n    \"url\" : \" http://www.nervmor.com/storage/0/5643F2AC451D034\",\n    \"maxdist\" : 0.5\n}",
           "type": "json"
         }
       ]
@@ -190,7 +190,7 @@
       "examples": [
         {
           "title": "成功:",
-          "content": "HTTP/1.1 200 OK\n{\n      \"code\": 0,\n      \"results\" : \n      [\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Jack's life\", \n                  \"from\" : \"Jack.mp4\",\n                  \"size\" : \"1024 * 768\",\n                  \"format\" : \"jpg\"\n              },\n              \"url\" : \"http://47.93.244.54/storage/0/5643F2AC451D034\",\n              \"dist\" : 0.0\n          },\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Tom's life\", \n                  \"from\" : \"Tom.mp4\",\n                  \"size\" : \"800 * 600\",\n                  \"format\" : \"png\"\n              },\n              \"url\" : \"http://47.93.244.54/storage/3/B874C76F7E120016\",\n              \"dist\" : 0.5232368\n          }\n      ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n      \"code\": 0,\n      \"results\" : \n      [\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Jack's life\", \n                  \"from\" : \"Jack.mp4\",\n                  \"size\" : \"1024 * 768\",\n                  \"format\" : \"jpg\"\n              },\n              \"url\" : \"http://www.nervmor.com/storage/0/5643F2AC451D034\",\n              \"dist\" : 0.0\n          },\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Tom's life\", \n                  \"from\" : \"Tom.mp4\",\n                  \"size\" : \"800 * 600\",\n                  \"format\" : \"png\"\n              },\n              \"url\" : \"http://www.nervmor.com/storage/3/B874C76F7E120016\",\n              \"dist\" : 0.5232368\n          }\n      ]\n}",
           "type": "json"
         }
       ]
@@ -248,21 +248,28 @@
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"url\" : \"http://47.93.244.54/storage/0/5643F2AC451D034“\n}",
+          "content": "{\n    \"url\" : \"http://www.nervmor.com/storage/0/5643F2AC451D034“\n}",
           "type": "json"
         }
       ]
     },
     "success": {
-      "examples": [
-        {
-          "title": "成功:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"code\": 0,\n}",
-          "type": "json"
-        }
-      ],
       "fields": {
         "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "result",
+            "description": "<p>匹配结果</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "result.delcnt",
+            "description": "<p>删除的图片个数</p>"
+          },
           {
             "group": "Success 200",
             "type": "Number",
@@ -271,7 +278,14 @@
             "description": "<p>成功时code=0</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "成功:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": 0,\n  \"result\":\n  {\n      \"delcnt\": 1\n  }\n}",
+          "type": "json"
+        }
+      ]
     },
     "error": {
       "examples": [

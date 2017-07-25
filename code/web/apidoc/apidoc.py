@@ -34,7 +34,7 @@
         "size" : "1024 * 768",
         "format" : "jpg"
     },
-    "url" : "http://47.93.244.54/storage/0/5643F2AC451D034“
+    "url" : "http://www.nervmor.com/storage/0/5643F2AC451D034“
 }
 
 @apiUse api_success
@@ -64,14 +64,20 @@
 
 @apiParamExample {json} 参数示例:
 {
-    "url" : "http://47.93.244.54/storage/0/5643F2AC451D034“
+    "url" : "http://www.nervmor.com/storage/0/5643F2AC451D034“
 }
 
 @apiUse api_success
+@apiSuccess {Object} result 匹配结果
+@apiSuccess {Number} result.delcnt 删除的图片个数
 @apiSuccessExample {json} 成功:
       HTTP/1.1 200 OK
       {
         "code": 0,
+        "result":
+        {
+            "delcnt": 1
+        }
       }
 
 @apiUse api_failure
@@ -95,7 +101,7 @@
 
 @apiParamExample {json} 参数示例:
 {
-    "url" : " http://47.93.244.54/storage/0/5643F2AC451D034",
+    "url" : " http://www.nervmor.com/storage/0/5643F2AC451D034",
     "maxdist" : 0.5
 }
 
@@ -118,7 +124,7 @@
                         "size" : "1024 * 768",
                         "format" : "jpg"
                     },
-                    "url" : "http://47.93.244.54/storage/0/5643F2AC451D034",
+                    "url" : "http://www.nervmor.com/storage/0/5643F2AC451D034",
                     "dist" : 0.0
                 },
                 {
@@ -129,7 +135,7 @@
                         "size" : "800 * 600",
                         "format" : "png"
                     },
-                    "url" : "http://47.93.244.54/storage/3/B874C76F7E120016",
+                    "url" : "http://www.nervmor.com/storage/3/B874C76F7E120016",
                     "dist" : 0.5232368
                 }
             ]

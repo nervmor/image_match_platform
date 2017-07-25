@@ -94,6 +94,7 @@ $("#metadata_yes_btn").on("click", function () {
     "url": cur_upload_file,
     "metadata" : metadata 
   };
+  $("#metadata_modal").modal('hide');
   $.ajax({
     type: "post",
     url: "http://www.nervmor.com/api/image/add/",
