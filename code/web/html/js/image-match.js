@@ -1,5 +1,7 @@
 pic_srv_url = "http://www.nervmor.com:4869/";
 cur_upload_files = [];
+uploaded_file_cnt = 0;
+complete_file_cnt = 0;
 result_str = [
   { "-1": "请求的json数据不正确" },
   { "-2": "请求参数不正确" },
@@ -12,6 +14,8 @@ function reset_state() {
   $("#pic_op_cont").hide();
   $("#res_sec").hide();
   cur_upload_files = [];
+  complete_file_cnt = 0;
+  uploaded_file_cnt = 0;
   $("#match_btn").attr("disabled", false);
   $("#remove_btn").attr("disabled", false);
 }
@@ -65,23 +69,26 @@ $("#file-upload").fileinput(
   {
     "uploadUrl": pic_srv_url,
     "language": "zh",
-    "maxFileCount": 10
+    "maxFileCount": 8
   });
 
 $("#file-upload").on("fileuploaded", function (event, data, previewId, index) {
-  res = data.response;
-  if (!res["ret"]) {
-    toastr.error("图片服务器处理失败");
-    return;
-  }
-  md5 = res["info"]["md5"];
-  pic_url = pic_srv_url + md5;
-  cur_upload_files.push(pic_url);
-  if (cur_upload_files.length == 1) {
+  do {
+    res = data.response;
+    if (!res["ret"]) {
+      toastr.error("图片服务器处理失败");
+      break;
+    }
+    md5 = res["info"]["md5"];
+    pic_url = pic_srv_url + md5;
+    cur_upload_files.push(pic_url);
+  } while (false);
+  if (++uploaded_file_cnt == data.files.length) {
     $("#pic_op_cont").show();
-  } else {
-    $("#match_btn").attr("disabled", true);
-    $("#remove_btn").attr("disabled", true);
+    if (cur_upload_files.length != 1) {
+      $("#match_btn").attr("disabled", true);
+      $("#remove_btn").attr("disabled", true);
+    }
   }
 })
 $('#file-upload').on('filebatchuploaderror', function (event, data, msg) {
@@ -98,6 +105,8 @@ $("#file-upload").on("filecleared", function (event, data, msg) {
 
 /******************************** btn event  *******************************/
 $("#metadata_yes_btn").on("click", function () {
+  $("#metadata_modal").modal('hide');
+  show_loading("正在入库");
   $.each(cur_upload_files, function (i, pic_url) {
     metadata = $("#metadata_edit").val();
     if (metadata.length == 0) {
@@ -108,14 +117,12 @@ $("#metadata_yes_btn").on("click", function () {
       "url": pic_url,
       "metadata": metadata
     };
-    $("#metadata_modal").modal('hide');
-    $.ajax({
+    ajax_req = $.ajax({
       type: "post",
       url: "http://www.nervmor.com/api/image/add/",
       data: JSON.stringify(req_data),
       dataType: "json",
       beforeSend: function () {
-        show_loading("正在入库");
       },
       success: function (data, textStatus) {
         if (data["code"] != 0) {
@@ -123,11 +130,17 @@ $("#metadata_yes_btn").on("click", function () {
         } else {
           toastr.success("图片入库成功");
         }
-        complete_loading();
+        if (++complete_file_cnt == cur_upload_files.length) {
+          complete_loading();
+          complete_file_cnt = 0;
+        }
       },
       error: function (XMLHttpRequest, textStatus, errorThrown) {
         toastr.error("图片入库失败");
-        complete_loading();
+        if (++complete_file_cnt == cur_upload_files.length) {
+          complete_loading();
+          complete_file_cnt = 0;
+        }
       }
     });
   });
