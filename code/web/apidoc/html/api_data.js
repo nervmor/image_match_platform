@@ -23,15 +23,15 @@ define({ "api": [
     "url": "",
     "version": "0.0.0",
     "filename": "./html/main.js",
-    "group": "S__local_image_match_platform_code_web_apidoc_html_main_js",
-    "groupTitle": "S__local_image_match_platform_code_web_apidoc_html_main_js",
+    "group": "T__local_image_match_platform_code_web_apidoc_html_main_js",
+    "groupTitle": "T__local_image_match_platform_code_web_apidoc_html_main_js",
     "name": ""
   },
   {
     "type": "post",
-    "url": "/image/add/",
+    "url": "/engine/add/",
     "title": "add",
-    "group": "image",
+    "group": "engine",
     "name": "add",
     "description": "<p>导入一张网络图片到样本库中</p>",
     "version": "0.1.0",
@@ -110,14 +110,73 @@ define({ "api": [
       }
     },
     "filename": "./apidoc.py",
-    "groupTitle": "image"
+    "groupTitle": "engine"
+  },
+  {
+    "type": "result",
+    "url": "/engine/result",
+    "title": "*code值说明*",
+    "group": "engine",
+    "name": "code___",
+    "description": "<p>返回码code以及对应描述</p>",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "0",
+            "description": "<p>成功</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "-1",
+            "description": "<p>请求的json格式不正确</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "-2",
+            "description": "<p>请求的参数不正确</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "-3",
+            "description": "<p>请求的HTTP Method不支持</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "-4",
+            "description": "<p>请求的图片地址无法访问</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "-5",
+            "description": "<p>请求参数maxdist不正确</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./apidoc.py",
+    "groupTitle": "engine"
   },
   {
     "type": "post",
-    "url": "/image/match/",
+    "url": "/engine/match/",
     "title": "match",
     "name": "match",
-    "group": "image",
+    "group": "engine",
     "description": "<p>将该图片和库中所有图片进行匹配并返回匹配结果</p>",
     "version": "0.1.0",
     "parameter": {
@@ -162,7 +221,7 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "results.metadata",
-            "description": "<p>自定义信息</p>"
+            "description": "<p>自定义信息cmd</p>"
           },
           {
             "group": "Success 200",
@@ -223,13 +282,13 @@ define({ "api": [
       }
     },
     "filename": "./apidoc.py",
-    "groupTitle": "image"
+    "groupTitle": "engine"
   },
   {
     "type": "post",
-    "url": "/image/remove/",
+    "url": "/engine/remove/",
     "title": "remove",
-    "group": "image",
+    "group": "engine",
     "name": "remove",
     "description": "<p>样本库中删除该图片</p>",
     "version": "0.1.0",
@@ -315,65 +374,191 @@ define({ "api": [
       }
     },
     "filename": "./apidoc.py",
-    "groupTitle": "image"
+    "groupTitle": "engine"
   },
   {
-    "type": "result",
-    "url": "/result",
-    "title": "code值说明",
-    "group": "result",
-    "name": "code___",
-    "description": "<p>返回码code以及对应描述</p>",
+    "type": "post",
+    "url": "/imgserver/[md5]",
+    "title": "del",
+    "name": "del",
+    "group": "imgserver",
+    "description": "<p>删除图片</p>",
     "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "t",
+            "description": "<p>t=1时删除图片</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "参数示例:",
+          "content": "/imgserver/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./apidoc.py",
+    "groupTitle": "imgserver"
+  },
+  {
+    "type": "post",
+    "url": "/imgserver/[md5]",
+    "title": "get",
+    "name": "get",
+    "group": "imgserver",
+    "description": "<p>根据参数得到相应的图片</p>",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "x",
+            "description": "<p>截取局部图片时的x坐标</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "y",
+            "description": "<p>截取局部图片时的y坐标</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "l",
+            "description": "<p>截取局部图片时的长度</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "w",
+            "description": "<p>截取局部图片时的宽度</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "参数示例:",
+          "content": "/imgserver/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片\n/imgserver/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片\n/imgserver/f5307fa900eb682e57d22a29c78a4ff5 返回原图",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./apidoc.py",
+    "groupTitle": "imgserver"
+  },
+  {
+    "type": "post",
+    "url": "/imgserver/upload",
+    "title": "upload",
+    "name": "upload",
+    "group": "imgserver",
+    "description": "<p>上传图片到图片服务器</p>",
+    "version": "0.1.0",
+    "parameter": {
+      "examples": [
+        {
+          "title": "参数示例:",
+          "content": "1. 使用标准的HTTP multitype/form 形式上传\n2. 使用二进制流的形式上传:HTTP头部需要加入Content-Type:jpg/png/[..]，body部分为文件的二进制流",
+          "type": "json"
+        }
+      ]
+    },
     "success": {
       "fields": {
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Number",
+            "type": "Boolean",
             "optional": false,
-            "field": "0",
-            "description": "<p>成功</p>"
+            "field": "ret",
+            "description": "<p>是否成功</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "info",
+            "description": "<p>图片信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "info.md5",
+            "description": "<p>图片的MD5</p>"
           },
           {
             "group": "Success 200",
             "type": "Number",
             "optional": false,
-            "field": "-1",
-            "description": "<p>请求的json格式不正确</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "-2",
-            "description": "<p>请求的参数不正确</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "-3",
-            "description": "<p>请求的HTTP Method不支持</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "-4",
-            "description": "<p>请求的图片地址无法访问</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "-5",
-            "description": "<p>请求参数maxdist不正确</p>"
+            "field": "info.size",
+            "description": "<p>图片的大小</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "成功:",
+          "content": "HTTP/1.1 200 OK\n{\n      \"ret\": true,\n      \"info\" : \n      {\n          \"md5\": \"f5307fa900eb682e57d22a29c78a4ff5\",\n          \"size\": 281356\n      }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "Boolean",
+            "optional": false,
+            "field": "ret",
+            "description": "<p>是否成功</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "Object",
+            "optional": false,
+            "field": "error",
+            "description": "<p>错误信息</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "Number",
+            "optional": false,
+            "field": "error.code",
+            "description": "<p>错误代码</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "String",
+            "optional": false,
+            "field": "error.message",
+            "description": "<p>错误说明</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "成功:",
+          "content": "HTTP/1.1 200 OK\n{\"ret\":false,\"error\":{\"code\":0,\"message\":\"Internal error.\"}}\n{\"ret\":false,\"error\":{\"code\":1,\"message\":\"File type not support.\"}}\n{\"ret\":false,\"error\":{\"code\":2,\"message\":\"Request method error.\"}}\n{\"ret\":false,\"error\":{\"code\":3,\"message\":\"Access error.\"}}\n{\"ret\":false,\"error\":{\"code\":4,\"message\":\"Request body parse error.\"}}\n{\"ret\":false,\"error\":{\"code\":5,\"message\":\"Content-Length error.\"}}\n{\"ret\":false,\"error\":{\"code\":6,\"message\":\"Content-Type error.\"}}\n{\"ret\":false,\"error\":{\"code\":7,\"message\":\"File too large.\"}}",
+          "type": "json"
+        }
+      ]
     },
     "filename": "./apidoc.py",
-    "groupTitle": "result"
+    "groupTitle": "imgserver"
   }
 ] });

@@ -1,6 +1,6 @@
 """
-@api {result} /result code值说明
-@apiGroup result
+@api {result} /engine/result *code值说明*
+@apiGroup engine
 @apiName code值说明
 @apiDescription 返回码code以及对应描述
 @apiVersion 0.1.0
@@ -16,8 +16,8 @@
 """
 
 """
-@api {post} /image/add/ add
-@apiGroup image
+@api {post} /engine/add/ add
+@apiGroup engine
 @apiName add
 @apiDescription 导入一张网络图片到样本库中
 @apiVersion 0.1.0
@@ -54,8 +54,8 @@
 """
 
 """
-@api {post} /image/remove/ remove
-@apiGroup image
+@api {post} /engine/remove/ remove
+@apiGroup engine
 @apiName remove
 @apiDescription 样本库中删除该图片
 @apiVersion 0.1.0
@@ -90,9 +90,9 @@
 """
 
 """
-@api {post} /image/match/ match
+@api {post} /engine/match/ match
 @apiName match
-@apiGroup image
+@apiGroup engine
 @apiDescription 将该图片和库中所有图片进行匹配并返回匹配结果
 @apiVersion 0.1.0
 
@@ -107,7 +107,7 @@
 
 @apiUse api_success
 @apiSuccess {Object[]} results 匹配结果
-@apiSuccess {String} results.metadata 自定义信息
+@apiSuccess {String} results.metadata 自定义信息cmd
 @apiSuccess {String} results.url 图片的url
 @apiSuccess {Number} results.dist 匹配差距度得分，分数越低表示匹配度越高
 @apiSuccessExample {json} 成功:
@@ -150,6 +150,80 @@
       }
 """
 
+"""
+@api {post} /imgserver/upload upload
+@apiName upload
+@apiGroup imgserver
+@apiDescription 上传图片到图片服务器
+@apiVersion 0.1.0 
+
+@apiParamExample 参数示例:
+1. 使用标准的HTTP multitype/form 形式上传
+2. 使用二进制流的形式上传:HTTP头部需要加入Content-Type:jpg/png/[..]，body部分为文件的二进制流
+
+@apiSuccess {Boolean} ret 是否成功 
+@apiSuccess {Object} info 图片信息
+@apiSuccess {String} info.md5 图片的MD5
+@apiSuccess {Number} info.size 图片的大小
+@apiSuccessExample {json} 成功:
+      HTTP/1.1 200 OK
+      {
+            "ret": true,
+            "info" : 
+            {
+                "md5": "f5307fa900eb682e57d22a29c78a4ff5",
+                "size": 281356
+            }
+      }
+
+@apiError {Boolean} ret 是否成功
+@apiError {Object} error 错误信息
+@apiError {Number} error.code 错误代码
+@apiError {String} error.message 错误说明
+@apiErrorExample {json} 成功:
+HTTP/1.1 200 OK
+{"ret":false,"error":{"code":0,"message":"Internal error."}}
+{"ret":false,"error":{"code":1,"message":"File type not support."}}
+{"ret":false,"error":{"code":2,"message":"Request method error."}}
+{"ret":false,"error":{"code":3,"message":"Access error."}}
+{"ret":false,"error":{"code":4,"message":"Request body parse error."}}
+{"ret":false,"error":{"code":5,"message":"Content-Length error."}}
+{"ret":false,"error":{"code":6,"message":"Content-Type error."}}
+{"ret":false,"error":{"code":7,"message":"File too large."}}
+"""
+
+"""
+@api {post} /imgserver/[md5] get
+@apiName get
+@apiGroup imgserver
+@apiDescription 根据参数得到相应的图片
+@apiVersion 0.1.0 
+
+@apiParam {Number} x 截取局部图片时的x坐标
+@apiParam {Number} y 截取局部图片时的y坐标
+@apiParam {Number} l 截取局部图片时的长度
+@apiParam {Number} w 截取局部图片时的宽度
+
+@apiParamExample 参数示例:
+/imgserver/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片
+/imgserver/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片
+/imgserver/f5307fa900eb682e57d22a29c78a4ff5 返回原图
+
+"""
+
+"""
+@api {post} /imgserver/[md5] del
+@apiName del
+@apiGroup imgserver
+@apiDescription 删除图片
+@apiVersion 0.1.0 
+
+@apiParam {Number} t t=1时删除图片
+
+@apiParamExample 参数示例:
+/imgserver/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
+
+"""
 
 """
 @apiDefine api_success

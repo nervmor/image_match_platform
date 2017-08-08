@@ -9,7 +9,32 @@
    Global Styles
 -------------------------------------------------------------------------------*/
 
-
+.my-navbar {
+	padding:0px 0;
+	transition: background 0.5s ease-in-out, padding 0.5s ease-in-out;
+}  
+.my-navbar a{
+	background:transparent !important;
+	color:#fff !important
+}  
+.my-navbar a:hover {
+	color:#45bcf9 !important;
+	background:transparent;outline:0
+}  
+.my-navbar a {
+	transition: color 0.5s ease-in-out;
+}/*-webkit-transition ;-moz-transition*/  
+.top-nav {
+	padding:0;
+	background:#000;
+}  
+button.navbar-toggle {
+	background-color:#fbfbfb;
+}
+button.navbar-toggle > span.icon-bar {
+	background-color:#dedede
+} 
+		
 body {
 	font-family: "Source Sans Pro";
 	font-weight: 300;
@@ -71,7 +96,7 @@ ul, li {
 .main {
 	background-size: cover;
 	padding: 3em 0 4.5em;
-	position: relative !important;
+	position: fixed !important;
 	color: #fff;
 }
 .overlay {
