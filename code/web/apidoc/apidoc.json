@@ -3,5 +3,5 @@
   "version": "0.1.0",
   "description": "Api格式为HTTP协议，使用POST方法，Body使用json格式",
   "title": "ImageMatch Platform Api Document",
-  "url" : "http://www.nervmor.com"
+  "url" : "http://www.nervmor.com/api"
 }

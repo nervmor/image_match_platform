@@ -377,11 +377,11 @@ define({ "api": [
     "groupTitle": "engine"
   },
   {
-    "type": "post",
-    "url": "/imgserver/[md5]",
+    "type": "get",
+    "url": "/img/[md5]?t=1",
     "title": "del",
     "name": "del",
-    "group": "imgserver",
+    "group": "img",
     "description": "<p>删除图片</p>",
     "version": "0.1.0",
     "parameter": {
@@ -399,20 +399,20 @@ define({ "api": [
       "examples": [
         {
           "title": "参数示例:",
-          "content": "/imgserver/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片",
+          "content": "/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片",
           "type": "json"
         }
       ]
     },
     "filename": "./apidoc.py",
-    "groupTitle": "imgserver"
+    "groupTitle": "img"
   },
   {
-    "type": "post",
-    "url": "/imgserver/[md5]",
+    "type": "get",
+    "url": "/img/[md5]",
     "title": "get",
     "name": "get",
-    "group": "imgserver",
+    "group": "img",
     "description": "<p>根据参数得到相应的图片</p>",
     "version": "0.1.0",
     "parameter": {
@@ -451,20 +451,20 @@ define({ "api": [
       "examples": [
         {
           "title": "参数示例:",
-          "content": "/imgserver/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片\n/imgserver/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片\n/imgserver/f5307fa900eb682e57d22a29c78a4ff5 返回原图",
+          "content": "/img/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片\n/img/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片\n/img/f5307fa900eb682e57d22a29c78a4ff5 返回原图",
           "type": "json"
         }
       ]
     },
     "filename": "./apidoc.py",
-    "groupTitle": "imgserver"
+    "groupTitle": "img"
   },
   {
     "type": "post",
-    "url": "/imgserver/upload",
+    "url": "/img/",
     "title": "upload",
     "name": "upload",
-    "group": "imgserver",
+    "group": "img",
     "description": "<p>上传图片到图片服务器</p>",
     "version": "0.1.0",
     "parameter": {
@@ -559,6 +559,6 @@ define({ "api": [
       ]
     },
     "filename": "./apidoc.py",
-    "groupTitle": "imgserver"
+    "groupTitle": "img"
   }
 ] });

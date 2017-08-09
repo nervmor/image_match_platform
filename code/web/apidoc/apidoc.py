@@ -151,9 +151,9 @@
 """
 
 """
-@api {post} /imgserver/upload upload
+@api {post} /img/ upload
 @apiName upload
-@apiGroup imgserver
+@apiGroup img
 @apiDescription 上传图片到图片服务器
 @apiVersion 0.1.0 
 
@@ -193,9 +193,9 @@ HTTP/1.1 200 OK
 """
 
 """
-@api {post} /imgserver/[md5] get
+@api {get} /img/[md5] get
 @apiName get
-@apiGroup imgserver
+@apiGroup img
 @apiDescription 根据参数得到相应的图片
 @apiVersion 0.1.0 
 
@@ -205,23 +205,23 @@ HTTP/1.1 200 OK
 @apiParam {Number} w 截取局部图片时的宽度
 
 @apiParamExample 参数示例:
-/imgserver/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片
-/imgserver/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片
-/imgserver/f5307fa900eb682e57d22a29c78a4ff5 返回原图
+/img/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片
+/img/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片
+/img/f5307fa900eb682e57d22a29c78a4ff5 返回原图
 
 """
 
 """
-@api {post} /imgserver/[md5] del
+@api {get} /img/[md5]?t=1 del
 @apiName del
-@apiGroup imgserver
+@apiGroup img
 @apiDescription 删除图片
 @apiVersion 0.1.0 
 
 @apiParam {Number} t t=1时删除图片
 
 @apiParamExample 参数示例:
-/imgserver/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
+/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 
 """
 

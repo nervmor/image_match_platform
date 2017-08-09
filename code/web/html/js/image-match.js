@@ -1,4 +1,5 @@
-pic_srv_url = "http://www.nervmor.com:4869/";
+pic_srv_url = "http://www.nervmor.com/api/img/";
+engine_srv_url = "http://www.nervmor.com/api/engine/"
 cur_upload_files = [];
 uploaded_file_cnt = 0;
 complete_file_cnt = 0;
@@ -67,7 +68,7 @@ toastr.options = {
 /******************************** file-upload  *******************************/
 $("#file-upload").fileinput(
   {
-    "uploadUrl": pic_srv_url,
+    "uploadUrl": pic_srv_url + "upload/",
     "language": "zh",
     "maxFileCount": 8
   });
@@ -119,7 +120,7 @@ $("#metadata_yes_btn").on("click", function () {
     };
     ajax_req = $.ajax({
       type: "post",
-      url: "http://www.nervmor.com/api/image/add/",
+      url: engine_srv_url + "add/",
       data: JSON.stringify(req_data),
       dataType: "json",
       beforeSend: function () {
@@ -152,7 +153,7 @@ $("#match_btn").on("click", function () {
   };
   $.ajax({
     type: "post",
-    url: "http://www.nervmor.com/api/image/match/",
+    url: engine_srv_url + "match/",
     data: JSON.stringify(req_data),
     dataType: "json",
     beforeSend: function () {
@@ -195,7 +196,7 @@ $("#remove_btn").on("click", function () {
   };
   $.ajax({
     type: "post",
-    url: "http://www.nervmor.com/api/image/remove/",
+    url: engine_srv_url + "remove/",
     data: JSON.stringify(req_data),
     dataType: "json",
     beforeSend: function () {
