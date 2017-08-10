@@ -2,6 +2,7 @@
 
 from elasticsearch import Elasticsearch
 from image_match.elasticsearch_driver import SignatureES
+from image_match.goldberg import ImageSignature
 import simplejson as json
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
@@ -76,6 +77,43 @@ def image_remove(request):
 
 @csrf_exempt
 def image_match(request):
+    ret = {}
+
+    while (True):
+        res, ret, req= common_api_check(request)
+        if (res != True):
+            break
+        try:
+            url_src = req['url_src']
+            url_dst = req['url_dst']
+        except (TypeError, ValueError):
+            ret['code'] = RESULT.PARAM_INVALID['code']
+            ret['error'] = RESULT.PARAM_INVALID['error']
+            break
+        try:
+            r = {}
+            for url_s in url_src:
+                r_s = {}
+                for url_d in url_dst:
+                    gis = ImageSignature()
+                    dist = gis.normalized_distance(gis.generate_signature(url_s), gis.generate_signature(url_d))
+                    r_s[url_d] = dist
+                r[url_s] = r_s
+
+            ret['code'] = RESULT.SUCCESS['code']
+            ret['result'] = r
+            break
+        except (TypeError, HTTPError, URLError, IOError):
+            ret['code'] = RESULT.IMAGE_URL_INVALID['code']
+            ret['error'] = RESULT.IMAGE_URL_INVALID['error']
+            break
+    if ret['code'] != RESULT.SUCCESS['code']:
+        return HttpResponseBadRequest(json.dumps(ret), content_type='application/json;')
+    else:
+        return HttpResponse(json.dumps(ret), content_type='application/json;')
+
+@csrf_exempt
+def image_search(request):
     ret = {}
     url = ""
     maxdist = 0.0

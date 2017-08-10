@@ -57,7 +57,7 @@ define({ "api": [
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    },\n    \"url\" : \"http://www.nervmor.com/storage/0/5643F2AC451D034“\n}",
+          "content": "{\n    \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    },\n    \"url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\"\n}",
           "type": "json"
         }
       ]
@@ -66,7 +66,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"code\": 0,\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    \"code\": 0,\n}",
           "type": "json"
         }
       ],
@@ -86,7 +86,7 @@ define({ "api": [
       "examples": [
         {
           "title": "失败:",
-          "content": "HTTP/1.1 400 \n{\n  \"code\": -1,\n  \"error\": \"image url is invalid\"\n}",
+          "content": "HTTP/1.1 400 \n{\n    \"code\": -1,\n    \"error\": \"image url is invalid\"\n}",
           "type": "json"
         }
       ],
@@ -175,33 +175,33 @@ define({ "api": [
     "type": "post",
     "url": "/engine/match/",
     "title": "match",
-    "name": "match",
     "group": "engine",
-    "description": "<p>将该图片和库中所有图片进行匹配并返回匹配结果</p>",
+    "name": "match",
+    "description": "<p>对两组图片进行匹配并输出差距值</p>",
     "version": "0.1.0",
     "parameter": {
       "fields": {
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "String",
+            "type": "String[]",
             "optional": false,
-            "field": "url",
-            "description": "<p>图片的地址</p>"
+            "field": "url_src",
+            "description": "<p>对比图片数组</p>"
           },
           {
             "group": "Parameter",
-            "type": "Number",
-            "optional": true,
-            "field": "maxdist",
-            "description": "<p>最大差距度(可选参数),必须为浮点数</p>"
+            "type": "String[]",
+            "optional": false,
+            "field": "url_dst",
+            "description": "<p>被对比图片数组</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"url\" : \" http://www.nervmor.com/storage/0/5643F2AC451D034\",\n    \"maxdist\" : 0.5\n}",
+          "content": "{\n    \"url_src\" :\n    [\n        \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n        \"http://www.nervmor.com/api/img/a87ff679a2f3e71d9181a67b7542122c\"\n    ],\n    \"url_dst\" : \n    [\n        \"http://www.nervmor.com/api/img/622162fa514365fa3867ddce401378a7\",\n        \"http://www.nervmor.com/api/img/67f1bf7400e3834476865298d3c3b179\",\n        \"http://www.nervmor.com/api/img/89b689f47afb5779ecfe8b7e41477e02\"\n    ]\n}",
           "type": "json"
         }
       ]
@@ -218,24 +218,17 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "String",
+            "type": "Object",
             "optional": false,
-            "field": "results.metadata",
-            "description": "<p>自定义信息cmd</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "results.url",
-            "description": "<p>图片的url</p>"
+            "field": "results.url_src_value",
+            "description": "<p>src图片对dst图片组的匹配结果</p>"
           },
           {
             "group": "Success 200",
             "type": "Number",
             "optional": false,
-            "field": "results.dist",
-            "description": "<p>匹配差距度得分，分数越低表示匹配度越高</p>"
+            "field": "results.url_src_value.url_dst_value",
+            "description": "<p>src图片对dst图片组匹配的差距值</p>"
           },
           {
             "group": "Success 200",
@@ -249,7 +242,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功:",
-          "content": "HTTP/1.1 200 OK\n{\n      \"code\": 0,\n      \"results\" : \n      [\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Jack's life\", \n                  \"from\" : \"Jack.mp4\",\n                  \"size\" : \"1024 * 768\",\n                  \"format\" : \"jpg\"\n              },\n              \"url\" : \"http://www.nervmor.com/storage/0/5643F2AC451D034\",\n              \"dist\" : 0.0\n          },\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Tom's life\", \n                  \"from\" : \"Tom.mp4\",\n                  \"size\" : \"800 * 600\",\n                  \"format\" : \"png\"\n              },\n              \"url\" : \"http://www.nervmor.com/storage/3/B874C76F7E120016\",\n              \"dist\" : 0.5232368\n          }\n      ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    \"code\": 0,\n    \"results\":\n    {\n        \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\" : \n        {\n            \"http://www.nervmor.com/api/img/622162fa514365fa3867ddce401378a7\" : 0.332423432,\n            \"http://www.nervmor.com/api/img/67f1bf7400e3834476865298d3c3b179\" : 0.25277,\n            \"http://www.nervmor.com/api/img/89b689f47afb5779ecfe8b7e41477e02\" : 0.68254\n        },\n\n        \"http://www.nervmor.com/api/img/a87ff679a2f3e71d9181a67b7542122c\" : \n        {\n            \"http://www.nervmor.com/api/img/622162fa514365fa3867ddce401378a7\" : 0.51848,\n            \"http://www.nervmor.com/api/img/67f1bf7400e3834476865298d3c3b179\" : 0.025954,\n            \"http://www.nervmor.com/api/img/89b689f47afb5779ecfe8b7e41477e02\" : 0.12179\n        }\n    }\n}",
           "type": "json"
         }
       ]
@@ -258,7 +251,7 @@ define({ "api": [
       "examples": [
         {
           "title": "失败:",
-          "content": "HTTP/1.1 400 OK\n{\n  \"code\": -1,\n  \"error\": \"image url is invalid\"\n}",
+          "content": "HTTP/1.1 400 \n{\n    \"code\": -1,\n    \"error\": \"image url is invalid\"\n}",
           "type": "json"
         }
       ],
@@ -307,7 +300,7 @@ define({ "api": [
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"url\" : \"http://www.nervmor.com/storage/0/5643F2AC451D034“\n}",
+          "content": "{\n    \"url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\"\n}",
           "type": "json"
         }
       ]
@@ -341,7 +334,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"code\": 0,\n  \"result\":\n  {\n      \"delcnt\": 1\n  }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    \"code\": 0,\n    \"result\":\n    {\n        \"delcnt\": 1\n    }\n}",
           "type": "json"
         }
       ]
@@ -350,7 +343,120 @@ define({ "api": [
       "examples": [
         {
           "title": "失败:",
-          "content": "HTTP/1.1 400 \n{\n  \"code\": -1,\n  \"error\": \"image url is invalid\"\n}",
+          "content": "HTTP/1.1 400 \n{\n    \"code\": -1,\n    \"error\": \"image url is invalid\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>失败时code&lt;0</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "String",
+            "optional": false,
+            "field": "error",
+            "description": "<p>失败原因说明</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./apidoc.py",
+    "groupTitle": "engine"
+  },
+  {
+    "type": "post",
+    "url": "/engine/search/",
+    "title": "search",
+    "name": "search",
+    "group": "engine",
+    "description": "<p>将该图片和库中所有图片进行匹配并返回匹配结果</p>",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "url",
+            "description": "<p>图片的地址</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": true,
+            "field": "maxdist",
+            "description": "<p>最大差距度(可选参数),必须为浮点数</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "参数示例:",
+          "content": "{\n    \"url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa,\n    \"maxdist\" : 0.5\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "results",
+            "description": "<p>匹配结果</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "results.metadata",
+            "description": "<p>自定义信息cmd</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "results.url",
+            "description": "<p>图片的url</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "results.dist",
+            "description": "<p>匹配差距度得分，分数越低表示匹配度越高</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>成功时code=0</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "成功:",
+          "content": "HTTP/1.1 200 OK\n{\n      \"code\": 0,\n      \"results\" : \n      [\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Jack's life\", \n                  \"from\" : \"Jack.mp4\",\n                  \"size\" : \"1024 * 768\",\n                  \"format\" : \"jpg\"\n              },\n              \"url\" : \"http://www.nervmor.com/api/img/622162fa514365fa3867ddce401378a7\",\n              \"dist\" : 0.0\n          },\n          {\n              \"metadata\": \n              {\n                  \"name\" : \"Tom's life\", \n                  \"from\" : \"Tom.mp4\",\n                  \"size\" : \"800 * 600\",\n                  \"format\" : \"png\"\n              },\n              \"url\" : \"http://www.nervmor.com/api/img/67f1bf7400e3834476865298d3c3b179\",\n              \"dist\" : 0.5232368\n          }\n      ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败:",
+          "content": "HTTP/1.1 400 OK\n{\n    \"code\": -1,\n    \"error\": \"image url is invalid\"\n}",
           "type": "json"
         }
       ],
@@ -399,7 +505,7 @@ define({ "api": [
       "examples": [
         {
           "title": "参数示例:",
-          "content": "/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片",
+          "content": "http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片",
           "type": "json"
         }
       ]
@@ -451,7 +557,7 @@ define({ "api": [
       "examples": [
         {
           "title": "参数示例:",
-          "content": "/img/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片\n/img/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片\n/img/f5307fa900eb682e57d22a29c78a4ff5 返回原图",
+          "content": "http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片\nhttp://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片\nhttp://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5 返回原图",
           "type": "json"
         }
       ]

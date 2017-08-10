@@ -34,23 +34,23 @@
         "size" : "1024 * 768",
         "format" : "jpg"
     },
-    "url" : "http://www.nervmor.com/storage/0/5643F2AC451D034“
+    "url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa"
 }
 
 @apiUse api_success
 @apiSuccessExample {json} 成功:
-      HTTP/1.1 200 OK
-      {
+    HTTP/1.1 200 OK
+    {
         "code": 0,
-      }
+    }
 
 @apiUse api_failure
 @apiErrorExample {json} 失败:
-      HTTP/1.1 400 
-      {
+    HTTP/1.1 400 
+    {
         "code": -1,
         "error": "image url is invalid"
-      }
+    }
 """
 
 """
@@ -64,34 +64,94 @@
 
 @apiParamExample {json} 参数示例:
 {
-    "url" : "http://www.nervmor.com/storage/0/5643F2AC451D034“
+    "url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa"
 }
 
 @apiUse api_success
 @apiSuccess {Object} result 匹配结果
 @apiSuccess {Number} result.delcnt 删除的图片个数
 @apiSuccessExample {json} 成功:
-      HTTP/1.1 200 OK
-      {
+    HTTP/1.1 200 OK
+    {
         "code": 0,
         "result":
         {
             "delcnt": 1
         }
-      }
+    }
 
 @apiUse api_failure
 @apiErrorExample {json} 失败:
-      HTTP/1.1 400 
-      {
+    HTTP/1.1 400 
+    {
         "code": -1,
         "error": "image url is invalid"
-      }
+    }
 """
 
 """
 @api {post} /engine/match/ match
+@apiGroup engine
 @apiName match
+@apiDescription 对两组图片进行匹配并输出差距值
+@apiVersion 0.1.0
+
+@apiParam {String[]} url_src 对比图片数组
+@apiParam {String[]} url_dst 被对比图片数组
+
+@apiParamExample {json} 参数示例:
+{
+    "url_src" :
+    [
+        "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa",
+        "http://www.nervmor.com/api/img/a87ff679a2f3e71d9181a67b7542122c"
+    ],
+    "url_dst" : 
+    [
+        "http://www.nervmor.com/api/img/622162fa514365fa3867ddce401378a7",
+        "http://www.nervmor.com/api/img/67f1bf7400e3834476865298d3c3b179",
+        "http://www.nervmor.com/api/img/89b689f47afb5779ecfe8b7e41477e02"
+    ]
+}
+
+@apiUse api_success
+@apiSuccess {Object[]} results 匹配结果
+@apiSuccess {Object} results.url_src_value src图片对dst图片组的匹配结果
+@apiSuccess {Number} results.url_src_value.url_dst_value src图片对dst图片组匹配的差距值
+@apiSuccessExample {json} 成功:
+HTTP/1.1 200 OK
+{
+    "code": 0,
+    "results":
+    {
+        "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa" : 
+        {
+            "http://www.nervmor.com/api/img/622162fa514365fa3867ddce401378a7" : 0.332423432,
+            "http://www.nervmor.com/api/img/67f1bf7400e3834476865298d3c3b179" : 0.25277,
+            "http://www.nervmor.com/api/img/89b689f47afb5779ecfe8b7e41477e02" : 0.68254
+        },
+
+        "http://www.nervmor.com/api/img/a87ff679a2f3e71d9181a67b7542122c" : 
+        {
+            "http://www.nervmor.com/api/img/622162fa514365fa3867ddce401378a7" : 0.51848,
+            "http://www.nervmor.com/api/img/67f1bf7400e3834476865298d3c3b179" : 0.025954,
+            "http://www.nervmor.com/api/img/89b689f47afb5779ecfe8b7e41477e02" : 0.12179
+        }
+    }
+}
+
+@apiUse api_failure
+@apiErrorExample {json} 失败:
+    HTTP/1.1 400 
+    {
+        "code": -1,
+        "error": "image url is invalid"
+    }
+"""
+
+"""
+@api {post} /engine/search/ search
+@apiName search
 @apiGroup engine
 @apiDescription 将该图片和库中所有图片进行匹配并返回匹配结果
 @apiVersion 0.1.0
@@ -101,7 +161,7 @@
 
 @apiParamExample {json} 参数示例:
 {
-    "url" : " http://www.nervmor.com/storage/0/5643F2AC451D034",
+    "url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa,
     "maxdist" : 0.5
 }
 
@@ -124,7 +184,7 @@
                         "size" : "1024 * 768",
                         "format" : "jpg"
                     },
-                    "url" : "http://www.nervmor.com/storage/0/5643F2AC451D034",
+                    "url" : "http://www.nervmor.com/api/img/622162fa514365fa3867ddce401378a7",
                     "dist" : 0.0
                 },
                 {
@@ -135,7 +195,7 @@
                         "size" : "800 * 600",
                         "format" : "png"
                     },
-                    "url" : "http://www.nervmor.com/storage/3/B874C76F7E120016",
+                    "url" : "http://www.nervmor.com/api/img/67f1bf7400e3834476865298d3c3b179",
                     "dist" : 0.5232368
                 }
             ]
@@ -143,11 +203,11 @@
 
 @apiUse api_failure
 @apiErrorExample 失败:
-      HTTP/1.1 400 OK
-      {
+    HTTP/1.1 400 OK
+    {
         "code": -1,
         "error": "image url is invalid"
-      }
+    }
 """
 
 """
@@ -205,9 +265,9 @@ HTTP/1.1 200 OK
 @apiParam {Number} w 截取局部图片时的宽度
 
 @apiParamExample 参数示例:
-/img/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片
-/img/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片
-/img/f5307fa900eb682e57d22a29c78a4ff5 返回原图
+http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片
+http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片
+http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5 返回原图
 
 """
 
@@ -221,7 +281,7 @@ HTTP/1.1 200 OK
 @apiParam {Number} t t=1时删除图片
 
 @apiParamExample 参数示例:
-/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
+http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 
 """
 
