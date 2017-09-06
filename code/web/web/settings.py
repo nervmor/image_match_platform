@@ -25,11 +25,6 @@ SECRET_KEY = '(l0&*gl$#_4o5!w%$bexub3@extz)@gu&f-wh%xnbhapk$kju$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "www.nervmor.com",
-    "127.0.0.1",
-]
-
 
 # Application definition
 
@@ -44,6 +39,9 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+ALLOWED_HOSTS = [
+    '*',
+]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

@@ -1,5 +1,5 @@
-pic_srv_url = "http://www.nervmor.com/api/img/";
-engine_srv_url = "http://www.nervmor.com/api/engine/"
+pic_srv_url = "api/img/";
+engine_srv_url = "api/engine/"
 cur_upload_files = [];
 uploaded_file_cnt = 0;
 complete_file_cnt = 0;
@@ -81,7 +81,7 @@ $("#file-upload").on("fileuploaded", function (event, data, previewId, index) {
       break;
     }
     md5 = res["info"]["md5"];
-    pic_url = pic_srv_url + md5;
+    pic_url = window.location.protocol + "//" + window.location.host + "/" + pic_srv_url + md5;
     cur_upload_files.push(pic_url);
   } while (false);
   if (++uploaded_file_cnt == data.files.length) {
