@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 
-from elasticsearch import Elasticsearch
-from image_match.elasticsearch_driver import SignatureES
-from image_match.goldberg import ImageSignature
+import types
+from urllib2 import URLError, HTTPError
+import sys
+sys.path.append("..")
+from common.common import *
+from common.define import *
 import simplejson as json
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
-from define import RESULT
-from urllib2 import URLError, HTTPError
-import types
+from elasticsearch import Elasticsearch
+from image_match.elasticsearch_driver import SignatureES
+from image_match.goldberg import ImageSignature
+
 
 @csrf_exempt
 def image_add(request):
@@ -160,21 +164,3 @@ def image_search(request):
         return HttpResponse(json.dumps(ret), content_type='application/json')
 
 
-def common_api_check(request):
-    res = False
-    ret = {}
-    req = object
-    while (True):
-        if request.method != 'POST':
-            ret['code'] = RESULT.HTTP_METHOD_NOT_SUPPORT['code']
-            ret['error'] = RESULT.HTTP_METHOD_NOT_SUPPORT['error']
-            break
-        try:
-            req = json.loads(request.body, encoding='utf-8')
-            res = True
-            break
-        except (TypeError, ValueError, AttributeError), e:
-            ret['code'] = RESULT.JSON_PARSE_ERROR['code']
-            ret['error'] = RESULT.JSON_PARSE_ERROR['error']
-            break
-    return res, ret, req

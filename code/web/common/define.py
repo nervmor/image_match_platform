@@ -1,4 +1,3 @@
-
 class RESULT(object):
     SUCCESS = {'code' : 0}
     JSON_PARSE_ERROR = {'code' : -1, 'error' : 'json data parse fail'}
