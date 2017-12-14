@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
     'engine',
     'feature',
     'corsheaders',
@@ -85,7 +86,7 @@ CORS_ALLOW_HEADERS = (
     'Pragma',
 )
 
-ROOT_URLCONF = 'web.urls'
+ROOT_URLCONF = 'settings.urls'
 
 TEMPLATES = [
     {
@@ -103,7 +104,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'web.wsgi.application'
+WSGI_APPLICATION = 'settings.wsgi.application'
 
 
 # Database
@@ -111,8 +112,12 @@ WSGI_APPLICATION = 'web.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'img_match',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST':'127.0.0.1',
+        'PORT':'3306',
     }
 }
 

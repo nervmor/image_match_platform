@@ -1,6 +1,6 @@
 from define import RESULT
 import simplejson as json
-
+import types
 def common_api_check(request):
     res = False
     ret = {}
@@ -22,3 +22,19 @@ def common_api_check(request):
             ret['error'] = RESULT.JSON_PARSE_ERROR['error']
             break
     return res, ret, req
+
+def is_type_int(v):
+    if not isinstance(v, types.IntType):
+        return False
+    return True
+
+def is_type_float(v):
+    if not isinstance(v, types.FloatType):
+        return False
+    return True
+
+def is_type_str(v):
+    if not isinstance(v, types.StringType):
+        return False
+    return True
+

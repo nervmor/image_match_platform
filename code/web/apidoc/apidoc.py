@@ -1,6 +1,6 @@
 """
 @api {result} /engine/result *code值说明*
-@apiGroup engine
+@apiGroup _result
 @apiName code值说明
 @apiDescription 返回码code以及对应描述
 @apiVersion 0.1.0
@@ -15,79 +15,6 @@
 
 """
 
-"""
-@api {post} /engine/add/ add
-@apiGroup engine
-@apiName add
-@apiDescription 导入一张网络图片到样本库中
-@apiVersion 0.1.0
-
-@apiParam {String} [metadata] 自定义标识数据(可选参数)
-@apiParam {String} url 图片的地址
-
-@apiParamExample {json} 参数示例:
-{
-    "metadata": 
-    {
-        "name" : "Jack's life", 
-        "from" : "Jack.mp4",
-        "size" : "1024 * 768",
-        "format" : "jpg"
-    },
-    "url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa"
-}
-
-@apiUse api_success
-@apiSuccessExample {json} 成功:
-    HTTP/1.1 200 OK
-    {
-        "code": 0,
-    }
-
-@apiUse api_failure
-@apiErrorExample {json} 失败:
-    HTTP/1.1 400 
-    {
-        "code": -1,
-        "error": "image url is invalid"
-    }
-"""
-
-"""
-@api {post} /engine/remove/ remove
-@apiGroup engine
-@apiName remove
-@apiDescription 样本库中删除该图片
-@apiVersion 0.1.0
-
-@apiParam {String} url 图片的地址
-
-@apiParamExample {json} 参数示例:
-{
-    "url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa"
-}
-
-@apiUse api_success
-@apiSuccess {Object} result 匹配结果
-@apiSuccess {Number} result.delcnt 删除的图片个数
-@apiSuccessExample {json} 成功:
-    HTTP/1.1 200 OK
-    {
-        "code": 0,
-        "result":
-        {
-            "delcnt": 1
-        }
-    }
-
-@apiUse api_failure
-@apiErrorExample {json} 失败:
-    HTTP/1.1 400 
-    {
-        "code": -1,
-        "error": "image url is invalid"
-    }
-"""
 
 """
 @api {post} /engine/match/ match
@@ -149,66 +76,7 @@ HTTP/1.1 200 OK
     }
 """
 
-"""
-@api {post} /engine/search/ search
-@apiName search
-@apiGroup engine
-@apiDescription 将该图片和库中所有图片进行匹配并返回匹配结果
-@apiVersion 0.1.0
 
-@apiParam {String} url 图片的地址
-@apiParam {Number} [maxdist] 最大差距度(可选参数),必须为浮点数
-
-@apiParamExample {json} 参数示例:
-{
-    "url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa,
-    "maxdist" : 0.5
-}
-
-@apiUse api_success
-@apiSuccess {Object[]} results 匹配结果
-@apiSuccess {String} results.metadata 自定义信息cmd
-@apiSuccess {String} results.url 图片的url
-@apiSuccess {Number} results.dist 匹配差距度得分，分数越低表示匹配度越高
-@apiSuccessExample {json} 成功:
-      HTTP/1.1 200 OK
-      {
-            "code": 0,
-            "results" : 
-            [
-                {
-                    "metadata": 
-                    {
-                        "name" : "Jack's life", 
-                        "from" : "Jack.mp4",
-                        "size" : "1024 * 768",
-                        "format" : "jpg"
-                    },
-                    "url" : "http://www.nervmor.com/api/img/622162fa514365fa3867ddce401378a7",
-                    "dist" : 0.0
-                },
-                {
-                    "metadata": 
-                    {
-                        "name" : "Tom's life", 
-                        "from" : "Tom.mp4",
-                        "size" : "800 * 600",
-                        "format" : "png"
-                    },
-                    "url" : "http://www.nervmor.com/api/img/67f1bf7400e3834476865298d3c3b179",
-                    "dist" : 0.5232368
-                }
-            ]
-      }
-
-@apiUse api_failure
-@apiErrorExample 失败:
-    HTTP/1.1 400 OK
-    {
-        "code": -1,
-        "error": "image url is invalid"
-    }
-"""
 
 """
 @api {post} /img/ upload
@@ -294,4 +162,58 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 @apiDefine api_failure
 @apiError {Number} code 失败时code<0
 @apiError {String} error 失败原因说明
+"""
+
+"""
+@api {post} /feature/phash/add/ add
+@apiGroup feature
+@apiName add
+@apiDescription 录入特征
+@apiVersion 0.1.0
+
+@apiParam {String} pic_url 图片的地址
+@apiParam {Number} feat_x 特征区域的X坐标
+@apiParam {Number} feat_y 特征区域的Y坐标
+@apiParam {Number} feat_w 特征区域的宽度
+@apiParam {Number} feat_h 特征区域的高度
+@apiParam {Number} feat_x_range 特征区域的X坐标的浮动范围
+@apiParam {Number} feat_y_range 特征区域的Y坐标的浮动范围
+@apiParam {Number} feat_w_range 特征区域的宽度的浮动范围
+@apiParam {Number} feat_h_range 特征区域的高度的浮动范围
+@apiParam {String} [metadata] 自定义标识数据(可选参数)
+
+@apiParamExample {json} 参数示例:
+{
+    "url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa",
+    "feat_x" : 100,
+    "feat_y" : 80,
+    "feat_x_range" : 5,
+    "feat_y_range" : 5,
+    "feat_w" : 50,
+    "feat_h" : 50,
+    "feat_w_range" : 3,
+    "feat_h_range" : 3,
+        "metadata": 
+    {
+        "name" : "Jack's life", 
+        "from" : "Jack.mp4",
+        "size" : "1024 * 768",
+        "format" : "jpg"
+    }
+}
+
+@apiUse api_success
+@apiSuccessExample {json} 成功:
+    HTTP/1.1 200 OK
+    {
+        "code": 0,
+    }
+
+@apiUse api_failure
+@apiErrorExample {json} 失败:
+    HTTP/1.1 400 
+    {
+        "code": -1,
+        "error": "image url is invalid"
+    }
 """
