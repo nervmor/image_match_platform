@@ -129,12 +129,12 @@ HTTP/1.1 200 OK
 
 @apiParam {Number} x 截取局部图片时的x坐标
 @apiParam {Number} y 截取局部图片时的y坐标
-@apiParam {Number} l 截取局部图片时的长度
 @apiParam {Number} w 截取局部图片时的宽度
+@apiParam {Number} h 截取局部图片时的高度
 
 @apiParamExample 参数示例:
-http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片
-http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片
+http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&w=40&h=40 截取坐标为[100,80]尺寸为40*40的局部图片
+http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&w=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片
 http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5 返回原图
 
 """
@@ -168,9 +168,10 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 @api {post} /feature/phash/add/ add
 @apiGroup feature
 @apiName add
-@apiDescription 录入特征
+@apiDescription 录入定点匹配特征
 @apiVersion 0.1.0
 
+@apiParam {String} category 图片的类别
 @apiParam {String} pic_url 图片的地址
 @apiParam {Number} feat_x 特征区域的X坐标
 @apiParam {Number} feat_y 特征区域的Y坐标
@@ -178,22 +179,21 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 @apiParam {Number} feat_h 特征区域的高度
 @apiParam {Number} feat_x_range 特征区域的X坐标的浮动范围
 @apiParam {Number} feat_y_range 特征区域的Y坐标的浮动范围
-@apiParam {Number} feat_w_range 特征区域的宽度的浮动范围
-@apiParam {Number} feat_h_range 特征区域的高度的浮动范围
-@apiParam {String} [metadata] 自定义标识数据(可选参数)
+@apiParam {Float} [dist] 该特征匹配阈值(越小表示要求匹配程度越高) 
+@apiParam {String} [metadata] 自定义标识数据
 
 @apiParamExample {json} 参数示例:
 {
+    "category" : "test",
     "url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa",
     "feat_x" : 100,
     "feat_y" : 80,
-    "feat_x_range" : 5,
-    "feat_y_range" : 5,
     "feat_w" : 50,
     "feat_h" : 50,
-    "feat_w_range" : 3,
-    "feat_h_range" : 3,
-        "metadata": 
+    "feat_x_range" : 5,
+    "feat_y_range" : 5,
+    "dist" : 0.4,
+    "metadata": 
     {
         "name" : "Jack's life", 
         "from" : "Jack.mp4",
@@ -215,5 +215,212 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
     {
         "code": -1,
         "error": "image url is invalid"
+    }
+"""
+
+"""
+@api {post} /feature/phash/get/ get
+@apiGroup feature
+@apiName get
+@apiDescription 获取指定尺寸图片定点匹配特征
+@apiVersion 0.1.0
+
+@apiParam {String} category 图片的类别
+@apiParam {Number} pic_wid  图片的宽度
+@apiParam {Number} pic_high 图片的高度
+
+@apiParamExample {json} 参数示例:
+{
+    "category" : "test",
+    "pic_wid" : 100,
+    "pic_high" : 80
+}
+
+@apiUse api_success
+@apiSuccessExample {json} 成功:
+    HTTP/1.1 200 OK
+    {
+        "code": 0,
+        "results": 
+        [
+            {
+                "pic_url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa",
+                "pic_wid" : 1200,
+                "pic_high" : 600,
+                "pic_ratio" : 2.0,
+                "feat_x" : 100,
+                "feat_y" : 80,
+                "feat_w" : 50,
+                "feat_h" : 50,
+                "feat_x_range" : 5,
+                "feat_y_range" : 5,
+                "dist" : 0.4,
+                "metadata": 
+                {
+                    "name" : "Jack's life", 
+                    "from" : "Jack.mp4",
+                    "size" : "1200 * 600",
+                    "format" : "jpg"
+                }
+            },
+            
+            {
+                "pic_url" : "http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5",
+                "pic_wid" : 300,
+                "pic_high" : 400,
+                "pic_ratio" : 0.75,
+                "feat_x" : 10,
+                "feat_y" : 10,
+                "feat_w" : 10,
+                "feat_h" : 10,
+                "feat_x_range" : 2,
+                "feat_y_range" : 2,
+                "dist" : 0.4,
+                "metadata": 
+                {
+                    "name" : "Game Video", 
+                    "from" : "game.flv",
+                    "size" : "300 * 400",
+                    "format" : "jpg"
+                }
+            }
+        ]
+    }
+
+@apiUse api_failure
+@apiErrorExample {json} 失败:
+    HTTP/1.1 400 
+    {
+        "code": -1,
+        "error": "Request body parse error."
+    }
+"""
+
+
+"""
+@api {post} /feature/template/add/ add
+@apiGroup feature
+@apiName add
+@apiDescription 录入模板匹配特征
+@apiVersion 0.1.0
+
+@apiParam {String} category 图片的类别
+@apiParam {String} pic_url 图片的地址
+@apiParam {Number} feat_x 特征区域的X坐标
+@apiParam {Number} feat_y 特征区域的Y坐标
+@apiParam {Number} feat_w 特征区域的宽度
+@apiParam {Number} feat_h 特征区域的高度
+@apiParam {Number} [deva] 特征区域坐标误差值(越小表示越精准)[0-]
+@apiParam {Number} [mcnt] 特征区域匹配数(越大表示越精准)[2-6]
+@apiParam {String} [metadata] 自定义标识数据
+
+@apiParamExample {json} 参数示例:
+{
+    "category" : "test",
+    "url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa",
+    "feat_x" : 100,
+    "feat_y" : 80,
+    "feat_w" : 50,
+    "feat_h" : 50,
+    "deva" : 2,
+    "mcnt" : 5,
+    "metadata": 
+    {
+        "name" : "Jack's life", 
+        "from" : "Jack.mp4",
+        "size" : "1024 * 768",
+        "format" : "jpg"
+    }
+}
+
+@apiUse api_success
+@apiSuccessExample {json} 成功:
+    HTTP/1.1 200 OK
+    {
+        "code": 0,
+    }
+
+@apiUse api_failure
+@apiErrorExample {json} 失败:
+    HTTP/1.1 400 
+    {
+        "code": -1,
+        "error": "image url is invalid"
+    }
+"""
+
+"""
+@api {post} /feature/template/get/ get
+@apiGroup feature
+@apiName get
+@apiDescription 获取指定尺寸图片模板匹配特征
+@apiVersion 0.1.0
+
+@apiParam {String} category 图片的类别
+@apiParam {Number} pic_wid  图片的宽度
+@apiParam {Number} pic_high 图片的高度
+
+@apiParamExample {json} 参数示例:
+{
+    "category" : "test",
+    "pic_wid" : 100,
+    "pic_high" : 80
+}
+
+@apiUse api_success
+@apiSuccessExample {json} 成功:
+    HTTP/1.1 200 OK
+    {
+        "code": 0,
+        "results": 
+        [
+            {
+                "pic_url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa",
+                "pic_wid" : 1200,
+                "pic_high" : 600,
+                "pic_ratio" : 2.0,
+                "feat_x" : 100,
+                "feat_y" : 80,
+                "feat_w" : 50,
+                "feat_h" : 50,
+                "deva" : 2,
+    			"mcnt" : 5,
+                "metadata": 
+                {
+                    "name" : "Jack's life", 
+                    "from" : "Jack.mp4",
+                    "size" : "1200 * 600",
+                    "format" : "jpg"
+                }
+            },
+            
+            {
+                "pic_url" : "http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5",
+                "pic_wid" : 300,
+                "pic_high" : 400,
+                "pic_ratio" : 0.75,
+                "feat_x" : 10,
+                "feat_y" : 10,
+                "feat_w" : 10,
+                "feat_h" : 10,
+                "deva" : 1,
+    			"mcnt" : 5,
+                "metadata": 
+                {
+                    "name" : "Game Video", 
+                    "from" : "game.flv",
+                    "size" : "300 * 400",
+                    "format" : "jpg"
+                }
+            }
+        ]
+    }
+
+@apiUse api_failure
+@apiErrorExample {json} 失败:
+    HTTP/1.1 400 
+    {
+        "code": -1,
+        "error": "Request body parse error."
     }
 """

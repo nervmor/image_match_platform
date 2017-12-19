@@ -1,33 +1,5 @@
 [
   {
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "varname1",
-            "description": "<p>No type.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "varname2",
-            "description": "<p>With type.</p>"
-          }
-        ]
-      }
-    },
-    "type": "",
-    "url": "",
-    "version": "0.0.0",
-    "filename": "./html/main.js",
-    "group": "T__local_image_match_platform_code_web_apidoc_html_main_js",
-    "groupTitle": "T__local_image_match_platform_code_web_apidoc_html_main_js",
-    "name": ""
-  },
-  {
     "type": "result",
     "url": "/engine/result",
     "title": "*code值说明*",
@@ -198,11 +170,18 @@
     "title": "add",
     "group": "feature",
     "name": "add",
-    "description": "<p>录入特征</p>",
+    "description": "<p>录入定点匹配特征</p>",
     "version": "0.1.0",
     "parameter": {
       "fields": {
         "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "category",
+            "description": "<p>图片的类别</p>"
+          },
           {
             "group": "Parameter",
             "type": "String",
@@ -254,31 +233,24 @@
           },
           {
             "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "feat_w_range",
-            "description": "<p>特征区域的宽度的浮动范围</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "feat_h_range",
-            "description": "<p>特征区域的高度的浮动范围</p>"
+            "type": "Float",
+            "optional": true,
+            "field": "dist",
+            "description": "<p>该特征匹配阈值(越小表示要求匹配程度越高)</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": true,
             "field": "metadata",
-            "description": "<p>自定义标识数据(可选参数)</p>"
+            "description": "<p>自定义标识数据</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n    \"feat_x\" : 100,\n    \"feat_y\" : 80,\n    \"feat_x_range\" : 5,\n    \"feat_y_range\" : 5,\n    \"feat_w\" : 50,\n    \"feat_h\" : 50,\n    \"feat_w_range\" : 3,\n    \"feat_h_range\" : 3,\n        \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    }\n}",
+          "content": "{\n    \"category\" : \"test\",\n    \"url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n    \"feat_x\" : 100,\n    \"feat_y\" : 80,\n    \"feat_w\" : 50,\n    \"feat_h\" : 50,\n    \"feat_x_range\" : 5,\n    \"feat_y_range\" : 5,\n    \"dist\" : 0.4,\n    \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    }\n}",
           "type": "json"
         }
       ]
@@ -308,6 +280,324 @@
         {
           "title": "失败:",
           "content": "HTTP/1.1 400 \n{\n    \"code\": -1,\n    \"error\": \"image url is invalid\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>失败时code&lt;0</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "String",
+            "optional": false,
+            "field": "error",
+            "description": "<p>失败原因说明</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./apidoc.py",
+    "groupTitle": "feature"
+  },
+  {
+    "type": "post",
+    "url": "/feature/template/add/",
+    "title": "add",
+    "group": "feature",
+    "name": "add",
+    "description": "<p>录入模板匹配特征</p>",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "category",
+            "description": "<p>图片的类别</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "pic_url",
+            "description": "<p>图片的地址</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "feat_x",
+            "description": "<p>特征区域的X坐标</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "feat_y",
+            "description": "<p>特征区域的Y坐标</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "feat_w",
+            "description": "<p>特征区域的宽度</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "feat_h",
+            "description": "<p>特征区域的高度</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": true,
+            "field": "deva",
+            "description": "<p>特征区域坐标误差值(越小表示越精准)[0-]</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": true,
+            "field": "mcnt",
+            "description": "<p>特征区域匹配数(越大表示越精准)[2-6]</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "metadata",
+            "description": "<p>自定义标识数据</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "参数示例:",
+          "content": "{\n    \"category\" : \"test\",\n    \"url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n    \"feat_x\" : 100,\n    \"feat_y\" : 80,\n    \"feat_w\" : 50,\n    \"feat_h\" : 50,\n    \"deva\" : 2,\n    \"mcnt\" : 5,\n    \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "成功:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"code\": 0,\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>成功时code=0</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败:",
+          "content": "HTTP/1.1 400 \n{\n    \"code\": -1,\n    \"error\": \"image url is invalid\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>失败时code&lt;0</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "String",
+            "optional": false,
+            "field": "error",
+            "description": "<p>失败原因说明</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./apidoc.py",
+    "groupTitle": "feature"
+  },
+  {
+    "type": "post",
+    "url": "/feature/phash/get/",
+    "title": "get",
+    "group": "feature",
+    "name": "get",
+    "description": "<p>获取指定尺寸图片定点匹配特征</p>",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "category",
+            "description": "<p>图片的类别</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pic_wid",
+            "description": "<p>图片的宽度</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pic_high",
+            "description": "<p>图片的高度</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "参数示例:",
+          "content": "{\n    \"category\" : \"test\",\n    \"pic_wid\" : 100,\n    \"pic_high\" : 80\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "成功:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"code\": 0,\n    \"results\": \n    [\n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n            \"pic_wid\" : 1200,\n            \"pic_high\" : 600,\n            \"pic_ratio\" : 2.0,\n            \"feat_x\" : 100,\n            \"feat_y\" : 80,\n            \"feat_w\" : 50,\n            \"feat_h\" : 50,\n            \"feat_x_range\" : 5,\n            \"feat_y_range\" : 5,\n            \"dist\" : 0.4,\n            \"metadata\": \n            {\n                \"name\" : \"Jack's life\", \n                \"from\" : \"Jack.mp4\",\n                \"size\" : \"1200 * 600\",\n                \"format\" : \"jpg\"\n            }\n        },\n        \n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5\",\n            \"pic_wid\" : 300,\n            \"pic_high\" : 400,\n            \"pic_ratio\" : 0.75,\n            \"feat_x\" : 10,\n            \"feat_y\" : 10,\n            \"feat_w\" : 10,\n            \"feat_h\" : 10,\n            \"feat_x_range\" : 2,\n            \"feat_y_range\" : 2,\n            \"dist\" : 0.4,\n            \"metadata\": \n            {\n                \"name\" : \"Game Video\", \n                \"from\" : \"game.flv\",\n                \"size\" : \"300 * 400\",\n                \"format\" : \"jpg\"\n            }\n        }\n    ]\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>成功时code=0</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败:",
+          "content": "HTTP/1.1 400 \n{\n    \"code\": -1,\n    \"error\": \"Request body parse error.\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>失败时code&lt;0</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "String",
+            "optional": false,
+            "field": "error",
+            "description": "<p>失败原因说明</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./apidoc.py",
+    "groupTitle": "feature"
+  },
+  {
+    "type": "post",
+    "url": "/feature/template/get/",
+    "title": "get",
+    "group": "feature",
+    "name": "get",
+    "description": "<p>获取指定尺寸图片模板匹配特征</p>",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "category",
+            "description": "<p>图片的类别</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pic_wid",
+            "description": "<p>图片的宽度</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pic_high",
+            "description": "<p>图片的高度</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "参数示例:",
+          "content": "{\n    \"category\" : \"test\",\n    \"pic_wid\" : 100,\n    \"pic_high\" : 80\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "成功:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"code\": 0,\n    \"results\": \n    [\n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n            \"pic_wid\" : 1200,\n            \"pic_high\" : 600,\n            \"pic_ratio\" : 2.0,\n            \"feat_x\" : 100,\n            \"feat_y\" : 80,\n            \"feat_w\" : 50,\n            \"feat_h\" : 50,\n            \"deva\" : 2,\n\t\t\t\"mcnt\" : 5,\n            \"metadata\": \n            {\n                \"name\" : \"Jack's life\", \n                \"from\" : \"Jack.mp4\",\n                \"size\" : \"1200 * 600\",\n                \"format\" : \"jpg\"\n            }\n        },\n        \n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5\",\n            \"pic_wid\" : 300,\n            \"pic_high\" : 400,\n            \"pic_ratio\" : 0.75,\n            \"feat_x\" : 10,\n            \"feat_y\" : 10,\n            \"feat_w\" : 10,\n            \"feat_h\" : 10,\n            \"deva\" : 1,\n\t\t\t\"mcnt\" : 5,\n            \"metadata\": \n            {\n                \"name\" : \"Game Video\", \n                \"from\" : \"game.flv\",\n                \"size\" : \"300 * 400\",\n                \"format\" : \"jpg\"\n            }\n        }\n    ]\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>成功时code=0</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败:",
+          "content": "HTTP/1.1 400 \n{\n    \"code\": -1,\n    \"error\": \"Request body parse error.\"\n}",
           "type": "json"
         }
       ],
@@ -393,22 +683,22 @@
             "group": "Parameter",
             "type": "Number",
             "optional": false,
-            "field": "l",
-            "description": "<p>截取局部图片时的长度</p>"
+            "field": "w",
+            "description": "<p>截取局部图片时的宽度</p>"
           },
           {
             "group": "Parameter",
             "type": "Number",
             "optional": false,
-            "field": "w",
-            "description": "<p>截取局部图片时的宽度</p>"
+            "field": "h",
+            "description": "<p>截取局部图片时的高度</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "参数示例:",
-          "content": "http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&l=40&w=40 截取坐标为[100,80]尺寸为40*40的局部图片\nhttp://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&l=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片\nhttp://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5 返回原图",
+          "content": "http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=100&y=80&w=40&h=40 截取坐标为[100,80]尺寸为40*40的局部图片\nhttp://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?x=0&y=0&w=60&w=60 截取坐标为[0,0](左上角)尺寸为60*60的局部图片\nhttp://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5 返回原图",
           "type": "json"
         }
       ]
