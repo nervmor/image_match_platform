@@ -5,10 +5,10 @@ import logging
 from ..defn.define import *
 
 class template_check_task:
-    def __init__(self, template_itfc, img_itfc, category, pic_info):
+    def __init__(self, template_itfc, img_itfc, cls, pic_info):
         self._template_itfc = template_itfc
         self._img_itfc = img_itfc
-        self._category = category
+        self._cls = cls
         self._pic_info = pic_info
 
 
@@ -78,7 +78,7 @@ class template_check_task:
     def run(self):
         ret = res_fail
         result = []
-        ret, feats = self._template_itfc.feature_get(self._category, self._pic_info._width, self._pic_info._height)
+        ret, feats = self._template_itfc.feature_get(self._cls, self._pic_info._width, self._pic_info._height)
         if ret <> res_succs:
             logging.getLogger('error').error('feature_get fail with width[%d] height[%d]',
                                              self._pic_info._width, self._pic_info._height)

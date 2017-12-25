@@ -8,6 +8,7 @@ from django.db import models
 
 class phash_feature(models.Model):
     _category = models.CharField(max_length = 512)
+    _tags = models.CharField(max_length = 1024)
     _pic_url = models.CharField(max_length = 2048)
     _pic_wid = models.IntegerField()
     _pic_high = models.IntegerField()
@@ -25,6 +26,7 @@ class phash_feature(models.Model):
 
 class template_feature(models.Model):
     _category = models.CharField(max_length=512)
+    _tags = models.CharField(max_length = 1024)
     _pic_url = models.CharField(max_length=2048)
     _pic_wid = models.IntegerField()
     _pic_high = models.IntegerField()

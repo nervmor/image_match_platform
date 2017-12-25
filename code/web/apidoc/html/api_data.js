@@ -1,5 +1,33 @@
 define({ "api": [
   {
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "varname1",
+            "description": "<p>No type.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "varname2",
+            "description": "<p>With type.</p>"
+          }
+        ]
+      }
+    },
+    "type": "",
+    "url": "",
+    "version": "0.0.0",
+    "filename": "./html/main.js",
+    "group": "T__local_image_match_platform_code_web_apidoc_html_main_js",
+    "groupTitle": "T__local_image_match_platform_code_web_apidoc_html_main_js",
+    "name": ""
+  },
+  {
     "type": "result",
     "url": "/engine/result",
     "title": "*code值说明*",
@@ -44,19 +72,132 @@ define({ "api": [
             "optional": false,
             "field": "-4",
             "description": "<p>请求的图片地址无法访问</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "-5",
-            "description": "<p>请求参数maxdist不正确</p>"
           }
         ]
       }
     },
     "filename": "./apidoc.py",
     "groupTitle": "_result"
+  },
+  {
+    "type": "post",
+    "url": "/core/check/",
+    "title": "check",
+    "group": "core",
+    "name": "check",
+    "description": "<p>使用特征库中的特征匹配该图片</p>",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "pic_url",
+            "description": "<p>图片url</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Object",
+            "optional": true,
+            "field": "class",
+            "description": "<p>图片的类别信息</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String[]",
+            "optional": true,
+            "field": "class.category",
+            "description": "<p>图片的类别</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String[]",
+            "optional": true,
+            "field": "class.tags",
+            "description": "<p>图片的标签</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "参数示例:",
+          "content": "{\n    \"pic_url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n    \"class\" : \n    {\n        \"category\" : [\"test\", \"test2\"],\n        \"tags\" : [\"tag1\", \"tag2\"]\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "results",
+            "description": "<p>匹配结果</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "results.matched",
+            "description": "<p>是否有特征符合匹配</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "results.detail",
+            "description": "<p>匹配详情</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>成功时code=0</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "成功:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"code\": 0,\n    \"results\": {\n        \"detail\": {\n            \"phash\": [\n                {\n                    \"feat\": {\n                        \"class\" : \n                        {\n                            \"category\" : [\"test\", \"test2\"],\n                            \"tags\" : [\"tag1\", \"tag2\"]\n                        },\n                        \"dist\": 0.3,\n                        \"feat_h\": 25,\n                        \"pic_wid\": 220,\n                        \"feat_x_range\": 0,\n                        \"feat_w\": 30,\n                        \"pic_ratio\": 1,\n                        \"feat_y_range\": 0,\n                        \"pic_high\": 220,\n                        \"feat_y\": 10,\n                        \"feat_x\": 10,\n                        \"pic_url\": \"http://127.0.0.1:4869/426777d2191aa13ca816930a66157b8b\",\n                        \"metadata\": \"phash test\"\n                    },\n                    \"result\": [\n                        {\n                            \"y\": 10,\n                            \"x\": 10,\n                            \"dist\": 0\n                        }\n                    ]\n                }\n            ],\n            \"template\": [\n                {\n                    \"feat\": {\n                        \"class\" : \n                        {\n                            \"category\" : [\"test\", \"test2\"],\n                            \"tags\" : [\"tag1\", \"tag2\"]\n                        },\n                        \"deva\": 3,\n                        \"feat_h\": 25,\n                        \"pic_wid\": 220,\n                        \"feat_w\": 30,\n                        \"mcnt\": 4,\n                        \"pic_high\": 220,\n                        \"feat_y\": 10,\n                        \"feat_x\": 10,\n                        \"pic_url\": \"http://127.0.0.1:4869/426777d2191aa13ca816930a66157b8b\",\n                        \"metadata\": \"template test\"\n                    },\n                    \"result\": [\n                        {\n                            \"y\": 10,\n                            \"x\": 10\n                        },\n                        {\n                            \"y\": 10,\n                            \"x\": 10\n                        },\n                        {\n                            \"y\": 10,\n                            \"x\": 10\n                        },\n                        {\n                            \"y\": 10,\n                            \"x\": 10\n                        },\n                        {\n                            \"y\": 10,\n                            \"x\": 10\n                        }\n                    ]\n                }\n            ]\n        },\n        \"matched\": true\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败:",
+          "content": "HTTP/1.1 400 \n{\n    \"code\": -1,\n    \"error\": \"image url is invalid\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>失败时code&lt;0</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "String",
+            "optional": false,
+            "field": "error",
+            "description": "<p>失败原因说明</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./apidoc.py",
+    "groupTitle": "core"
   },
   {
     "type": "post",
@@ -168,7 +309,7 @@ define({ "api": [
     "type": "post",
     "url": "/feature/phash/add/",
     "title": "add",
-    "group": "feature",
+    "group": "feature_phash",
     "name": "add",
     "description": "<p>录入定点匹配特征</p>",
     "version": "0.1.0",
@@ -177,10 +318,24 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "category",
+            "type": "Object",
+            "optional": true,
+            "field": "class",
+            "description": "<p>图片的类别信息</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String[]",
+            "optional": true,
+            "field": "class.category",
             "description": "<p>图片的类别</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String[]",
+            "optional": true,
+            "field": "class.tags",
+            "description": "<p>图片的标签</p>"
           },
           {
             "group": "Parameter",
@@ -250,7 +405,7 @@ define({ "api": [
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"category\" : \"test\",\n    \"url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n    \"feat_x\" : 100,\n    \"feat_y\" : 80,\n    \"feat_w\" : 50,\n    \"feat_h\" : 50,\n    \"feat_x_range\" : 5,\n    \"feat_y_range\" : 5,\n    \"dist\" : 0.4,\n    \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    }\n}",
+          "content": "{\n    \"class\" : \n    {\n        \"category\" : [\"test\", \"test2\"],\n        \"tags\" : [\"tag1\", \"tag2\"]\n    }\n    \"url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n    \"feat_x\" : 100,\n    \"feat_y\" : 80,\n    \"feat_w\" : 50,\n    \"feat_h\" : 50,\n    \"feat_x_range\" : 5,\n    \"feat_y_range\" : 5,\n    \"dist\" : 0.4,\n    \"metadata\": \n    \"\n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    }\n    \"\n}",
           "type": "json"
         }
       ]
@@ -303,13 +458,119 @@ define({ "api": [
       }
     },
     "filename": "./apidoc.py",
-    "groupTitle": "feature"
+    "groupTitle": "feature_phash"
+  },
+  {
+    "type": "post",
+    "url": "/feature/phash/get/",
+    "title": "get",
+    "group": "feature_phash",
+    "name": "get",
+    "description": "<p>获取指定尺寸图片定点匹配特征</p>",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Object",
+            "optional": true,
+            "field": "class",
+            "description": "<p>图片的类别信息</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String[]",
+            "optional": true,
+            "field": "class.category",
+            "description": "<p>图片的类别</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String[]",
+            "optional": true,
+            "field": "class.tags",
+            "description": "<p>图片的标签</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pic_wid",
+            "description": "<p>图片的宽度</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pic_high",
+            "description": "<p>图片的高度</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "参数示例:",
+          "content": "{\n    \"class\" : \n    {\n        \"category\" : [\"test\", \"test2\"],\n        \"tags\" : [\"tag1\", \"tag2\"]\n    }\n    \"pic_wid\" : 100,\n    \"pic_high\" : 80\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "成功:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"code\": 0,\n    \"results\": \n    [\n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n            \"pic_wid\" : 1200,\n            \"pic_high\" : 600,\n            \"pic_ratio\" : 2.0,\n            \"feat_x\" : 100,\n            \"feat_y\" : 80,\n            \"feat_w\" : 50,\n            \"feat_h\" : 50,\n            \"feat_x_range\" : 5,\n            \"feat_y_range\" : 5,\n            \"dist\" : 0.4,\n            \"metadata\": \n            {\n                \"name\" : \"Jack's life\", \n                \"from\" : \"Jack.mp4\",\n                \"size\" : \"1200 * 600\",\n                \"format\" : \"jpg\"\n            }\n        },\n        \n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5\",\n            \"pic_wid\" : 300,\n            \"pic_high\" : 400,\n            \"pic_ratio\" : 0.75,\n            \"feat_x\" : 10,\n            \"feat_y\" : 10,\n            \"feat_w\" : 10,\n            \"feat_h\" : 10,\n            \"feat_x_range\" : 2,\n            \"feat_y_range\" : 2,\n            \"dist\" : 0.4,\n            \"metadata\": \n            {\n                \"name\" : \"Game Video\", \n                \"from\" : \"game.flv\",\n                \"size\" : \"300 * 400\",\n                \"format\" : \"jpg\"\n            }\n        }\n    ]\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>成功时code=0</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败:",
+          "content": "HTTP/1.1 400 \n{\n    \"code\": -1,\n    \"error\": \"Request body parse error.\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>失败时code&lt;0</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "String",
+            "optional": false,
+            "field": "error",
+            "description": "<p>失败原因说明</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./apidoc.py",
+    "groupTitle": "feature_phash"
   },
   {
     "type": "post",
     "url": "/feature/template/add/",
     "title": "add",
-    "group": "feature",
+    "group": "feature_template",
     "name": "add",
     "description": "<p>录入模板匹配特征</p>",
     "version": "0.1.0",
@@ -318,10 +579,24 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "category",
+            "type": "Object",
+            "optional": true,
+            "field": "class",
+            "description": "<p>图片的类别信息</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String[]",
+            "optional": true,
+            "field": "class.category",
             "description": "<p>图片的类别</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String[]",
+            "optional": true,
+            "field": "class.tags",
+            "description": "<p>图片的标签</p>"
           },
           {
             "group": "Parameter",
@@ -384,7 +659,7 @@ define({ "api": [
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"category\" : \"test\",\n    \"url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n    \"feat_x\" : 100,\n    \"feat_y\" : 80,\n    \"feat_w\" : 50,\n    \"feat_h\" : 50,\n    \"deva\" : 2,\n    \"mcnt\" : 5,\n    \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    }\n}",
+          "content": "{\n    \"class\" : \n    {\n        \"category\" : [\"test\", \"test2\"],\n        \"tags\" : [\"tag1\", \"tag2\"]\n    }\n    \"url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n    \"feat_x\" : 100,\n    \"feat_y\" : 80,\n    \"feat_w\" : 50,\n    \"feat_h\" : 50,\n    \"deva\" : 2,\n    \"mcnt\" : 5,\n    \"metadata\": \n    {\n        \"name\" : \"Jack's life\", \n        \"from\" : \"Jack.mp4\",\n        \"size\" : \"1024 * 768\",\n        \"format\" : \"jpg\"\n    }\n}",
           "type": "json"
         }
       ]
@@ -437,105 +712,13 @@ define({ "api": [
       }
     },
     "filename": "./apidoc.py",
-    "groupTitle": "feature"
-  },
-  {
-    "type": "post",
-    "url": "/feature/phash/get/",
-    "title": "get",
-    "group": "feature",
-    "name": "get",
-    "description": "<p>获取指定尺寸图片定点匹配特征</p>",
-    "version": "0.1.0",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "category",
-            "description": "<p>图片的类别</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "pic_wid",
-            "description": "<p>图片的宽度</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "pic_high",
-            "description": "<p>图片的高度</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "参数示例:",
-          "content": "{\n    \"category\" : \"test\",\n    \"pic_wid\" : 100,\n    \"pic_high\" : 80\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "成功:",
-          "content": "HTTP/1.1 200 OK\n{\n    \"code\": 0,\n    \"results\": \n    [\n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n            \"pic_wid\" : 1200,\n            \"pic_high\" : 600,\n            \"pic_ratio\" : 2.0,\n            \"feat_x\" : 100,\n            \"feat_y\" : 80,\n            \"feat_w\" : 50,\n            \"feat_h\" : 50,\n            \"feat_x_range\" : 5,\n            \"feat_y_range\" : 5,\n            \"dist\" : 0.4,\n            \"metadata\": \n            {\n                \"name\" : \"Jack's life\", \n                \"from\" : \"Jack.mp4\",\n                \"size\" : \"1200 * 600\",\n                \"format\" : \"jpg\"\n            }\n        },\n        \n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5\",\n            \"pic_wid\" : 300,\n            \"pic_high\" : 400,\n            \"pic_ratio\" : 0.75,\n            \"feat_x\" : 10,\n            \"feat_y\" : 10,\n            \"feat_w\" : 10,\n            \"feat_h\" : 10,\n            \"feat_x_range\" : 2,\n            \"feat_y_range\" : 2,\n            \"dist\" : 0.4,\n            \"metadata\": \n            {\n                \"name\" : \"Game Video\", \n                \"from\" : \"game.flv\",\n                \"size\" : \"300 * 400\",\n                \"format\" : \"jpg\"\n            }\n        }\n    ]\n}",
-          "type": "json"
-        }
-      ],
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "code",
-            "description": "<p>成功时code=0</p>"
-          }
-        ]
-      }
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "失败:",
-          "content": "HTTP/1.1 400 \n{\n    \"code\": -1,\n    \"error\": \"Request body parse error.\"\n}",
-          "type": "json"
-        }
-      ],
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "type": "Number",
-            "optional": false,
-            "field": "code",
-            "description": "<p>失败时code&lt;0</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "type": "String",
-            "optional": false,
-            "field": "error",
-            "description": "<p>失败原因说明</p>"
-          }
-        ]
-      }
-    },
-    "filename": "./apidoc.py",
-    "groupTitle": "feature"
+    "groupTitle": "feature_template"
   },
   {
     "type": "post",
     "url": "/feature/template/get/",
     "title": "get",
-    "group": "feature",
+    "group": "feature_template",
     "name": "get",
     "description": "<p>获取指定尺寸图片模板匹配特征</p>",
     "version": "0.1.0",
@@ -544,10 +727,24 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "category",
+            "type": "Object",
+            "optional": true,
+            "field": "class",
+            "description": "<p>图片的类别信息</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String[]",
+            "optional": true,
+            "field": "class.category",
             "description": "<p>图片的类别</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String[]",
+            "optional": true,
+            "field": "class.tags",
+            "description": "<p>图片的标签</p>"
           },
           {
             "group": "Parameter",
@@ -568,7 +765,7 @@ define({ "api": [
       "examples": [
         {
           "title": "参数示例:",
-          "content": "{\n    \"category\" : \"test\",\n    \"pic_wid\" : 100,\n    \"pic_high\" : 80\n}",
+          "content": "{\n    \"class\" : \n    {\n        \"category\" : [\"test\", \"test2\"],\n        \"tags\" : [\"tag1\", \"tag2\"]\n    }\n    \"pic_wid\" : 100,\n    \"pic_high\" : 80\n}",
           "type": "json"
         }
       ]
@@ -577,7 +774,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功:",
-          "content": "HTTP/1.1 200 OK\n{\n    \"code\": 0,\n    \"results\": \n    [\n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n            \"pic_wid\" : 1200,\n            \"pic_high\" : 600,\n            \"pic_ratio\" : 2.0,\n            \"feat_x\" : 100,\n            \"feat_y\" : 80,\n            \"feat_w\" : 50,\n            \"feat_h\" : 50,\n            \"deva\" : 2,\n\t\t\t\"mcnt\" : 5,\n            \"metadata\": \n            {\n                \"name\" : \"Jack's life\", \n                \"from\" : \"Jack.mp4\",\n                \"size\" : \"1200 * 600\",\n                \"format\" : \"jpg\"\n            }\n        },\n        \n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5\",\n            \"pic_wid\" : 300,\n            \"pic_high\" : 400,\n            \"pic_ratio\" : 0.75,\n            \"feat_x\" : 10,\n            \"feat_y\" : 10,\n            \"feat_w\" : 10,\n            \"feat_h\" : 10,\n            \"deva\" : 1,\n\t\t\t\"mcnt\" : 5,\n            \"metadata\": \n            {\n                \"name\" : \"Game Video\", \n                \"from\" : \"game.flv\",\n                \"size\" : \"300 * 400\",\n                \"format\" : \"jpg\"\n            }\n        }\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    \"code\": 0,\n    \"results\": \n    [\n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa\",\n            \"pic_wid\" : 1200,\n            \"pic_high\" : 600,\n            \"pic_ratio\" : 2.0,\n            \"feat_x\" : 100,\n            \"feat_y\" : 80,\n            \"feat_w\" : 50,\n            \"feat_h\" : 50,\n            \"deva\" : 2,\n            \"mcnt\" : 5,\n            \"metadata\": \n            {\n                \"name\" : \"Jack's life\", \n                \"from\" : \"Jack.mp4\",\n                \"size\" : \"1200 * 600\",\n                \"format\" : \"jpg\"\n            }\n        },\n        \n        {\n            \"pic_url\" : \"http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5\",\n            \"pic_wid\" : 300,\n            \"pic_high\" : 400,\n            \"pic_ratio\" : 0.75,\n            \"feat_x\" : 10,\n            \"feat_y\" : 10,\n            \"feat_w\" : 10,\n            \"feat_h\" : 10,\n            \"deva\" : 1,\n            \"mcnt\" : 5,\n            \"metadata\": \n            {\n                \"name\" : \"Game Video\", \n                \"from\" : \"game.flv\",\n                \"size\" : \"300 * 400\",\n                \"format\" : \"jpg\"\n            }\n        }\n    ]\n}",
           "type": "json"
         }
       ],
@@ -621,7 +818,7 @@ define({ "api": [
       }
     },
     "filename": "./apidoc.py",
-    "groupTitle": "feature"
+    "groupTitle": "feature_template"
   },
   {
     "type": "get",

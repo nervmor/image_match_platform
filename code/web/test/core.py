@@ -12,7 +12,9 @@ def test_core(md5, category):
 
     data = {}
     data['pic_url'] = img_url
-    data['category'] = 'test'
+    data['class'] = {
+        'category' : ['test']
+    }
 
     try:
         r = requests.post(url, json = data)
@@ -29,4 +31,4 @@ def test_core(md5, category):
 
 
 if __name__ == '__main__':
-    test_core('426777d2191aa13ca816930a66157b8b', 'test')
+    test_core('e3c2c4b85ccd96d16eee6b5882d52b3d', 'test')

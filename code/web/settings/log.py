@@ -16,13 +16,13 @@ LOGGING = {
         'global_file': {
              'level': 'DEBUG',
              'class': 'logging.handlers.TimedRotatingFileHandler',
-             'filename': 'global.log',
+             'filename': './log/global.log',
              'formatter':'standard'
         },
         'error_file': {
             'level': 'ERROR',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': 'error.log',
+            'filename': './log/error.log',
             'formatter': 'standard'
         },
         'console':{

@@ -41,10 +41,10 @@ class template_interface:
             res = r_s[url_dst]
             return ret, res
 
-    def feature_get(self, category, pic_wid, pic_high):
+    def feature_get(self, cls, pic_wid, pic_high):
         data = {}
         req_data = {}
-        req_data['category'] = category
+        req_data['class'] = cls
         req_data['pic_wid'] = pic_wid
         req_data['pic_high'] = pic_high
         url = "http://" + self._feature_srv_ip + "/api/feature/template/get/"

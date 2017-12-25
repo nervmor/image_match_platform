@@ -27,14 +27,14 @@ def check(request):
         if not req.has_key('pic_url') or not is_type_str(req['pic_url']):
             break
         pic_url = req['pic_url']
-        if req.has_key('category'):
-            category = req['category']
-            if not is_type_str(category):
-                break
-        else:
-            category = 'default'
 
-        chker = checker.checker(category, pic_url)
+        r, category, tags = parse_class_param(req)
+        if r <> True:
+            break
+        cls = {}
+        if req.has_key('class'):
+            cls = req['class']
+        chker = checker.checker(cls, pic_url)
         r, d = chker.run()
         if r <> res_succs:
             break

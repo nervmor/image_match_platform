@@ -5,8 +5,8 @@ from ..conf import configure
 from ..defn.define import *
 
 class checker:
-    def __init__(self, category, pic_url):
-        self._category = category
+    def __init__(self, cls, pic_url):
+        self._cls = cls
         self._pic_url = pic_url
         self._phash_interface = intfc.phash.pash_interface(
             configure.engine_srv_url,
@@ -17,13 +17,13 @@ class checker:
         self._img_interface = intfc.img.img_interface()
 
     def phash_check(self, info):
-        phash_task = phash.pash_check_task(self._phash_interface, self._img_interface, self._category, info)
+        phash_task = phash.pash_check_task(self._phash_interface, self._img_interface, self._cls, info)
         ret, result = phash_task.run()
         return ret, result
 
 
     def template_check(self, info):
-        template_task = template.template_check_task(self._template_interface, self._img_interface, self._category, info)
+        template_task = template.template_check_task(self._template_interface, self._img_interface, self._cls, info)
         ret, result = template_task.run()
         return ret, result
 

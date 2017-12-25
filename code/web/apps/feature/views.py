@@ -16,6 +16,9 @@ from PIL import Image
 import requests
 from io import BytesIO
 from . import models
+from django.db.models import Q
+import operator
+
 
 
 def cacl_pic_ratio(wid, high):
@@ -44,19 +47,21 @@ def phash_feature_add(request):
         try:
             ret['code'] = RESULT.PARAM_INVALID['code']
             ret['error'] = RESULT.PARAM_INVALID['error']
-            if not req.has_key('category') or not is_type_str(req['category']):
-                category = 'default'
-            else:
-                category = req['category']
+
+            r, category, tags= parse_class_param(req)
+            if r <> True:
+                break
+
+            str_category, str_tags = make_pic_class_str(category, tags)
+
             if not req.has_key('pic_url') or not is_type_str(req['pic_url']):
                 break
             pic_url = req['pic_url']
+            dist = -1.0
             if req.has_key('dist'):
                 if not is_type_float(req['dist']) or req['dist'] < 0:
                     break
                 dist = req['dist']
-            else:
-                dist = -1.0
             if not int_valid(req, 'feat_x'):
                 break
             feat_x = req['feat_x']
@@ -103,7 +108,8 @@ def phash_feature_add(request):
                 break
 
             qr = models.phash_feature.objects.get_or_create(
-                _category=category,
+                _category=str_category,
+                _tags=str_tags,
                 _feat_x=feat_x,
                 _feat_y=feat_y,
                 _feat_w=feat_w,
@@ -115,7 +121,7 @@ def phash_feature_add(request):
                 _pic_high = pic_high,
                 _pic_ratio = pic_ratio,
                 _dist = dist,
-                _metadata=metadata)
+                _metadata= metadata)
             ret['code'] = RESULT.SUCCESS['code']
             del ret['error']
         except (KeyError, TypeError, ValueError):
@@ -150,12 +156,9 @@ def phash_feature_get(request):
                 pic_high = req['pic_high']
                 if not is_type_int(pic_high) or pic_high < 0:
                     break
-            if req.has_key('category'):
-                category = req['category']
-                if not is_type_str(category):
-                    break
-            else:
-                category = 'default'
+            r, category, tags= parse_class_param(req)
+            if r <> True:
+                break
 
             pic_ratio = 0.0
             if not (pic_wid == 0 and pic_high == 0):
@@ -165,23 +168,26 @@ def phash_feature_get(request):
                     break
                 pic_ratio = cacl_pic_ratio(pic_wid, pic_high)
 
-            if pic_ratio == 0.0:
-                qr = models.phash_feature.objects.filter(_category=category).values(
-                    '_pic_url',
-                    '_pic_wid',
-                    '_pic_high',
-                    '_pic_ratio',
-                    '_feat_x',
-                    '_feat_y',
-                    '_feat_w',
-                    '_feat_h',
-                    '_feat_x_range',
-                    '_feat_y_range',
-                    '_dist',
-                    '_metadata'
-                )
-            else:
-                qr = models.phash_feature.objects.filter(_category=category, _pic_ratio=pic_ratio).values(
+            category_q_list = []
+            for obj in category:
+                q_obj = Q(**{"_category__contains": obj})
+                category_q_list.append(q_obj)
+            tags_q_list = []
+            for obj in tags:
+                q_obj = Q(**{"_tags__contains": obj})
+                tags_q_list.append(q_obj)
+
+            query = Q(**{})
+            if len(category_q_list) <> 0:
+                query = query & reduce(operator.or_, category_q_list)
+            if len(tags_q_list) <> 0:
+                query = query & reduce(operator.or_, tags_q_list)
+            if pic_ratio <> 0.0:
+                query = query & Q(_pic_ratio=pic_ratio)
+
+            qr = models.phash_feature.objects.filter(query).values(
+                    '_category',
+                    '_tags',
                     '_pic_url',
                     '_pic_wid',
                     '_pic_high',
@@ -199,6 +205,7 @@ def phash_feature_get(request):
             ret['results'] = []
             for r in qr:
                 entry = {}
+                entry['class'] = make_pic_class(r['_category'], r['_tags'])
                 entry['pic_url'] = r['_pic_url']
                 entry['pic_wid'] = r['_pic_wid']
                 entry['pic_high'] = r['_pic_high']
@@ -234,10 +241,12 @@ def template_feature_add(request):
         try:
             ret['code'] = RESULT.PARAM_INVALID['code']
             ret['error'] = RESULT.PARAM_INVALID['error']
-            if not req.has_key('category') or not is_type_str(req['category']):
-                category = 'default'
-            else:
-                category = req['category']
+
+            r, category, tags= parse_class_param(req)
+            if r <> True:
+                break
+            str_category, str_tags = make_pic_class_str(category, tags)
+
             if not req.has_key('pic_url') or not is_type_str(req['pic_url']):
                 break
             pic_url = req['pic_url']
@@ -295,7 +304,8 @@ def template_feature_add(request):
                     break
 
             qr = models.template_feature.objects.get_or_create(
-                _category=category,
+                _category=str_category,
+                _tags=str_tags,
                 _pic_url=pic_url,
                 _pic_wid=pic_wid,
                 _pic_high=pic_high,
@@ -340,12 +350,9 @@ def template_feature_get(request):
                 pic_high = req['pic_high']
                 if not is_type_int(pic_high) or pic_high < 0:
                     break
-            if req.has_key('category'):
-                category = req['category']
-                if not is_type_str(category):
-                    break
-            else:
-                category = 'default'
+            r, category, tags= parse_class_param(req)
+            if r <> True:
+                break
 
             if not (pic_wid == 0 and pic_high == 0):
                 if pic_wid * pic_high == 0:
@@ -353,23 +360,26 @@ def template_feature_get(request):
                     ret['error'] = RESULT.PARAM_INVALID['error']
                     break
 
-            if pic_wid * pic_high == 0.0:
-                qr = models.template_feature.objects.filter(_category=category).values(
-                    '_pic_url',
-                    '_pic_wid',
-                    '_pic_high',
-                    '_feat_x',
-                    '_feat_y',
-                    '_feat_w',
-                    '_feat_h',
-                    '_deva',
-                    '_mcnt',
-                    '_metadata'
-                )
-            else:
-                qr = models.template_feature.objects.filter(_category=category,
-                                                            _feat_w__lte=pic_wid,
-                                                            _feat_h__lte=pic_high).values(
+            category_q_list = []
+            for obj in category:
+                q_obj = Q(**{"_category__contains": obj})
+                category_q_list.append(q_obj)
+            tags_q_list = []
+            for obj in tags:
+                q_obj = Q(**{"_tags__contains": obj})
+                tags_q_list.append(q_obj)
+
+            query = Q(**{})
+            if len(category_q_list) <> 0:
+                query = query & reduce(operator.or_, category_q_list)
+            if len(tags_q_list) <> 0:
+                query = query & reduce(operator.or_, tags_q_list)
+            if pic_wid * pic_high <> 0.0:
+                query = query & Q(_feat_w__lte=pic_wid, _feat_h__lte=pic_high)
+
+            qr = models.template_feature.objects.filter(query).values(
+                    '_category',
+                    '_tags',
                     '_pic_url',
                     '_pic_wid',
                     '_pic_high',
@@ -385,6 +395,7 @@ def template_feature_get(request):
             ret['results'] = []
             for r in qr:
                 entry = {}
+                entry['class'] = make_pic_class(r['_category'], r['_tags'])
                 entry['pic_url'] = r['_pic_url']
                 entry['pic_wid'] = r['_pic_wid']
                 entry['pic_high'] = r['_pic_high']

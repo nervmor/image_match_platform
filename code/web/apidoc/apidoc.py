@@ -11,8 +11,6 @@
 @apiSuccess {Number} -2 请求的参数不正确
 @apiSuccess {Number} -3 请求的HTTP Method不支持
 @apiSuccess {Number} -4 请求的图片地址无法访问
-@apiSuccess {Number} -5 请求参数maxdist不正确
-
 """
 
 
@@ -166,12 +164,14 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 
 """
 @api {post} /feature/phash/add/ add
-@apiGroup feature
+@apiGroup feature-phash
 @apiName add
 @apiDescription 录入定点匹配特征
 @apiVersion 0.1.0
 
-@apiParam {String} category 图片的类别
+@apiParam {Object} [class] 图片的类别信息
+@apiParam {String[]} [class.category] 图片的类别
+@apiParam {String[]} [class.tags] 图片的标签
 @apiParam {String} pic_url 图片的地址
 @apiParam {Number} feat_x 特征区域的X坐标
 @apiParam {Number} feat_y 特征区域的Y坐标
@@ -184,7 +184,11 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 
 @apiParamExample {json} 参数示例:
 {
-    "category" : "test",
+    "class" : 
+    {
+        "category" : ["test", "test2"],
+        "tags" : ["tag1", "tag2"]
+    }
     "url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa",
     "feat_x" : 100,
     "feat_y" : 80,
@@ -194,12 +198,14 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
     "feat_y_range" : 5,
     "dist" : 0.4,
     "metadata": 
+    "
     {
         "name" : "Jack's life", 
         "from" : "Jack.mp4",
         "size" : "1024 * 768",
         "format" : "jpg"
     }
+    "
 }
 
 @apiUse api_success
@@ -220,18 +226,24 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 
 """
 @api {post} /feature/phash/get/ get
-@apiGroup feature
+@apiGroup feature-phash
 @apiName get
 @apiDescription 获取指定尺寸图片定点匹配特征
 @apiVersion 0.1.0
 
-@apiParam {String} category 图片的类别
+@apiParam {Object} [class] 图片的类别信息
+@apiParam {String[]} [class.category] 图片的类别
+@apiParam {String[]} [class.tags] 图片的标签
 @apiParam {Number} pic_wid  图片的宽度
 @apiParam {Number} pic_high 图片的高度
 
 @apiParamExample {json} 参数示例:
 {
-    "category" : "test",
+    "class" : 
+    {
+        "category" : ["test", "test2"],
+        "tags" : ["tag1", "tag2"]
+    }
     "pic_wid" : 100,
     "pic_high" : 80
 }
@@ -299,12 +311,14 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 
 """
 @api {post} /feature/template/add/ add
-@apiGroup feature
+@apiGroup feature-template
 @apiName add
 @apiDescription 录入模板匹配特征
 @apiVersion 0.1.0
 
-@apiParam {String} category 图片的类别
+@apiParam {Object} [class] 图片的类别信息
+@apiParam {String[]} [class.category] 图片的类别
+@apiParam {String[]} [class.tags] 图片的标签
 @apiParam {String} pic_url 图片的地址
 @apiParam {Number} feat_x 特征区域的X坐标
 @apiParam {Number} feat_y 特征区域的Y坐标
@@ -316,7 +330,11 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 
 @apiParamExample {json} 参数示例:
 {
-    "category" : "test",
+    "class" : 
+    {
+        "category" : ["test", "test2"],
+        "tags" : ["tag1", "tag2"]
+    }
     "url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa",
     "feat_x" : 100,
     "feat_y" : 80,
@@ -351,18 +369,24 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 
 """
 @api {post} /feature/template/get/ get
-@apiGroup feature
+@apiGroup feature-template
 @apiName get
 @apiDescription 获取指定尺寸图片模板匹配特征
 @apiVersion 0.1.0
 
-@apiParam {String} category 图片的类别
+@apiParam {Object} [class] 图片的类别信息
+@apiParam {String[]} [class.category] 图片的类别
+@apiParam {String[]} [class.tags] 图片的标签
 @apiParam {Number} pic_wid  图片的宽度
 @apiParam {Number} pic_high 图片的高度
 
 @apiParamExample {json} 参数示例:
 {
-    "category" : "test",
+    "class" : 
+    {
+        "category" : ["test", "test2"],
+        "tags" : ["tag1", "tag2"]
+    }
     "pic_wid" : 100,
     "pic_high" : 80
 }
@@ -384,7 +408,7 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
                 "feat_w" : 50,
                 "feat_h" : 50,
                 "deva" : 2,
-    			"mcnt" : 5,
+                "mcnt" : 5,
                 "metadata": 
                 {
                     "name" : "Jack's life", 
@@ -404,7 +428,7 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
                 "feat_w" : 10,
                 "feat_h" : 10,
                 "deva" : 1,
-    			"mcnt" : 5,
+                "mcnt" : 5,
                 "metadata": 
                 {
                     "name" : "Game Video", 
@@ -422,5 +446,125 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
     {
         "code": -1,
         "error": "Request body parse error."
+    }
+"""
+
+
+"""
+@api {post} /core/check/ check
+@apiGroup core
+@apiName check
+@apiDescription 使用特征库中的特征匹配该图片
+@apiVersion 0.1.0
+
+@apiParam {String} pic_url 图片url
+@apiParam {Object} [class] 图片的类别信息
+@apiParam {String[]} [class.category] 图片的类别
+@apiParam {String[]} [class.tags] 图片的标签
+
+@apiParamExample {json} 参数示例:
+{
+    "pic_url" : "http://www.nervmor.com/api/img/8c186f92ec604040962b2490a0d2ecfa",
+    "class" : 
+    {
+        "category" : ["test", "test2"],
+        "tags" : ["tag1", "tag2"]
+    }
+}
+
+@apiUse api_success
+@apiSuccess {Object} results 匹配结果
+@apiSuccess {Object} results.matched 是否有特征符合匹配
+@apiSuccess {Number} results.detail 匹配详情
+@apiSuccessExample {json} 成功:
+HTTP/1.1 200 OK
+{
+    "code": 0,
+    "results": {
+        "detail": {
+            "phash": [
+                {
+                    "feat": {
+                        "class" : 
+                        {
+                            "category" : ["test", "test2"],
+                            "tags" : ["tag1", "tag2"]
+                        },
+                        "dist": 0.3,
+                        "feat_h": 25,
+                        "pic_wid": 220,
+                        "feat_x_range": 0,
+                        "feat_w": 30,
+                        "pic_ratio": 1,
+                        "feat_y_range": 0,
+                        "pic_high": 220,
+                        "feat_y": 10,
+                        "feat_x": 10,
+                        "pic_url": "http://127.0.0.1:4869/426777d2191aa13ca816930a66157b8b",
+                        "metadata": "phash test"
+                    },
+                    "result": [
+                        {
+                            "y": 10,
+                            "x": 10,
+                            "dist": 0
+                        }
+                    ]
+                }
+            ],
+            "template": [
+                {
+                    "feat": {
+                        "class" : 
+                        {
+                            "category" : ["test", "test2"],
+                            "tags" : ["tag1", "tag2"]
+                        },
+                        "deva": 3,
+                        "feat_h": 25,
+                        "pic_wid": 220,
+                        "feat_w": 30,
+                        "mcnt": 4,
+                        "pic_high": 220,
+                        "feat_y": 10,
+                        "feat_x": 10,
+                        "pic_url": "http://127.0.0.1:4869/426777d2191aa13ca816930a66157b8b",
+                        "metadata": "template test"
+                    },
+                    "result": [
+                        {
+                            "y": 10,
+                            "x": 10
+                        },
+                        {
+                            "y": 10,
+                            "x": 10
+                        },
+                        {
+                            "y": 10,
+                            "x": 10
+                        },
+                        {
+                            "y": 10,
+                            "x": 10
+                        },
+                        {
+                            "y": 10,
+                            "x": 10
+                        }
+                    ]
+                }
+            ]
+        },
+        "matched": true
+    }
+}
+
+@apiUse api_failure
+@apiErrorExample {json} 失败:
+    HTTP/1.1 400 
+    {
+        "code": -1,
+        "error": "image url is invalid"
     }
 """
