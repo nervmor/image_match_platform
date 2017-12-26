@@ -5,7 +5,7 @@ core_srv_ip = '127.0.0.1:9090'
 img_srv_ip = '127.0.0.1:4869'
 
 
-def test_core(md5, category):
+def test_core(md5):
     url = "http://" + core_srv_ip + "/api/core/check/"
 
     img_url = "http://" + img_srv_ip + "/" + md5
@@ -31,4 +31,4 @@ def test_core(md5, category):
 
 
 if __name__ == '__main__':
-    test_core('e3c2c4b85ccd96d16eee6b5882d52b3d', 'test')
+    test_core('e3c2c4b85ccd96d16eee6b5882d52b3d')

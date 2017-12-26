@@ -123,5 +123,7 @@ if __name__ == '__main__':
     #test_add_template_feat('426777d2191aa13ca816930a66157b8b', 10, 10, 30, 25, 3, 4, "template test")
     #test_add_phash_feat('99bfa9eff3fd1a75587bcee4e144061c', 17, 3, 31, 30, 5, 5, "phash test2")
     #test_add_template_feat('99bfa9eff3fd1a75587bcee4e144061c', 17, 3, 31, 30, 2, 4, "template test2")
+    test_get_phash_feat(220, 220)
+    test_get_phash_feat(0, 0)
     test_get_template_feat(220, 220)
     test_get_template_feat(0, 0)
