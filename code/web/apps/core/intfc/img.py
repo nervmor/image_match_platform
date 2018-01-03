@@ -62,7 +62,6 @@ class img_interface:
                 args += "&y=" + str(y)
                 args += "&w=" + str(w)
                 args += "&h=" + str(h)
-                args += "&g=" + str(1)
         pic_url = url
         if len(args) <> 0:
             pic_url += "?" + args
