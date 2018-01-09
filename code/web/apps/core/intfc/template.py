@@ -8,6 +8,7 @@ class template_interface:
         self._engine_srv_ip = engine_srv_ip
         self._feature_srv_ip = feature_srv_ip
         pass
+
     def match(self, url_src, url_dst):
         ret = res_fail
         res = []
@@ -39,7 +40,8 @@ class template_interface:
                 break
             ret = res_succs
             res = r_s[url_dst]
-            return ret, res
+            break
+        return ret, res
 
     def feature_get(self, cls, pic_wid, pic_high):
         data = {}

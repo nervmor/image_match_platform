@@ -276,6 +276,12 @@ def template_feature_add(request):
                 mcnt = req['mcnt']
             else:
                 mcnt = -1
+            if req.has_key('dist'):
+                if not is_type_float(req['dist']) or req['dist'] < 0:
+                    break
+                dist = req['dist']
+            else:
+                dist = -1.0
             metadata = ""
             if req.has_key('metadata'):
                 if not is_type_str(req['metadata']):
@@ -316,6 +322,7 @@ def template_feature_add(request):
                 _feat_h=feat_h,
                 _deva=deva,
                 _mcnt=mcnt,
+                _dist=dist,
                 _metadata=metadata)
             ret['code'] = RESULT.SUCCESS['code']
             del ret['error']
@@ -389,6 +396,7 @@ def template_feature_get(request):
                     '_feat_h',
                     '_deva',
                     '_mcnt',
+                    '_dist',
                     '_metadata'
                 )
             ret['code'] = RESULT.SUCCESS['code']
@@ -405,6 +413,7 @@ def template_feature_get(request):
                 entry['feat_h'] = r['_feat_h']
                 entry['deva'] = r['_deva']
                 entry['mcnt'] = r['_mcnt']
+                entry['dist'] = r['_dist']
                 entry['metadata'] = r['_metadata']
                 ret['results'].append(entry)
         except (KeyError, TypeError, ValueError):

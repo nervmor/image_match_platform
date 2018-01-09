@@ -27,7 +27,8 @@ class pash_interface:
                 break
             ret = res_succs
             result = data
-            return ret, result
+            break
+        return ret, result
 
     def match(self, url_src, url_dst):
         ret = res_fail
@@ -60,7 +61,8 @@ class pash_interface:
                 break
             ret = res_succs
             dist = r_s[url_dst]
-            return ret, dist
+            break
+        return ret, dist
 
     def feature_get(self, cls, pic_wid, pic_high):
         data = {}

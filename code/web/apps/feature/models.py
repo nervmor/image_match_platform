@@ -37,6 +37,7 @@ class template_feature(models.Model):
     _feat_h = models.IntegerField()
     _deva = models.IntegerField()
     _mcnt = models.IntegerField()
+    _dist = models.FloatField()
     _metadata = models.CharField(max_length = 1024, default="")
     class Meta:
         db_table = 'template_feature'

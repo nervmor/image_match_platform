@@ -23,7 +23,7 @@ class checker:
 
 
     def template_check(self, info):
-        template_task = template.template_check_task(self._template_interface, self._img_interface, self._cls, info)
+        template_task = template.template_check_task(self._template_interface, self._phash_interface, self._img_interface, self._cls, info)
         ret, result = template_task.run()
         return ret, result
 

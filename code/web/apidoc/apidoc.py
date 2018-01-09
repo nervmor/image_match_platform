@@ -326,6 +326,7 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
 @apiParam {Number} feat_h 特征区域的高度
 @apiParam {Number} [deva] 特征区域坐标误差值(越小表示越精准)[0-]
 @apiParam {Number} [mcnt] 特征区域匹配数(越大表示越精准)[2-6]
+@apiParam {Float} [dist] 该特征匹配阈值(越小表示要求匹配程度越高) 
 @apiParam {String} [metadata] 自定义标识数据
 
 @apiParamExample {json} 参数示例:
@@ -342,6 +343,7 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
     "feat_h" : 50,
     "deva" : 2,
     "mcnt" : 5,
+    "dist" : 0.7,
     "metadata": 
     {
         "name" : "Jack's life", 
@@ -409,6 +411,7 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
                 "feat_h" : 50,
                 "deva" : 2,
                 "mcnt" : 5,
+                "dist" : 0.8,
                 "metadata": 
                 {
                     "name" : "Jack's life", 
@@ -429,6 +432,7 @@ http://www.nervmor.com/api/img/f5307fa900eb682e57d22a29c78a4ff5?t=1 删除图片
                 "feat_h" : 10,
                 "deva" : 1,
                 "mcnt" : 5,
+                "dist" : 0.7,
                 "metadata": 
                 {
                     "name" : "Game Video", 
@@ -520,6 +524,7 @@ HTTP/1.1 200 OK
                             "category" : ["test", "test2"],
                             "tags" : ["tag1", "tag2"]
                         },
+                        "dist": 0.7,
                         "deva": 3,
                         "feat_h": 25,
                         "pic_wid": 220,

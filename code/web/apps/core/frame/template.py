@@ -1,12 +1,14 @@
 from ..intfc import img
 from ..intfc import template
+from ..intfc import phash
 from .. import conf
 import logging
 from ..defn.define import *
 
 class template_check_task:
-    def __init__(self, template_itfc, img_itfc, cls, pic_info):
+    def __init__(self, template_itfc, hash_itfc, img_itfc, cls, pic_info):
         self._template_itfc = template_itfc
+        self._hash_itfc = hash_itfc
         self._img_itfc = img_itfc
         self._cls = cls
         self._pic_info = pic_info
@@ -29,7 +31,9 @@ class template_check_task:
         mcnt = feat['mcnt']
         if mcnt == -1:
             mcnt = conf.configure.template_default_mcnt
-
+        dist = feat['dist']
+        if dist == -1.0:
+            dist = conf.configure.template_default_dist
         # return six matched point
         ret, d = self._template_itfc.match(pic_info._url, feat_url)
         if ret <> res_succs:
@@ -67,12 +71,29 @@ class template_check_task:
 
         if max_cnt >= mcnt:
             for l in max_loc:
+                while (True):
+                    max_cnt = max_cnt - 1
+                    x = l[0]
+                    y = l[1]
+                    rcode, url_s = self._img_itfc.gen_url(pic_info._url, x, y, feat['feat_w'], feat['feat_h'])
+                    if rcode <> res_succs:
+                        break
+                    rcode, rdist = self._hash_itfc.match(url_s, feat_url)
+                    if rcode <> res_succs:
+                        break
+                    if rdist > dist:
+                        break
+                    max_cnt = max_cnt + 1
+                    break
+                if max_cnt < mcnt:
+                    data = []
+                    break
                 info = {}
-                info['x'] = l[0]
-                info['y'] = l[1]
+                info['x'] = x
+                info['y'] = y
                 data.append(info)
-        return ret, data
 
+        return ret, data
 
 
     def run(self):
